@@ -1,0 +1,51 @@
+import { test, expect } from '@playwright/test'
+
+test.describe('Landing page', () => {
+  test('loads and shows the hero', async ({ page }) => {
+    await page.goto('/')
+    await expect(
+      page.getByRole('heading', {
+        name: /track student growth from learning to employment/i,
+      })
+    ).toBeVisible()
+  })
+
+  test('renders the eight skill dimensions', async ({ page }) => {
+    await page.goto('/')
+    const dimensions = page.locator('#dimensions')
+    await dimensions.scrollIntoViewIfNeeded()
+    await expect(
+      dimensions.getByText('Communication', { exact: true })
+    ).toBeVisible()
+    await expect(
+      dimensions.getByText('Adaptability', { exact: true })
+    ).toBeVisible()
+  })
+
+  test('navigates to the dashboard (publicly accessible)', async ({ page }) => {
+    await page.goto('/')
+    await page
+      .locator('#overview')
+      .getByRole('link', { name: /open dashboard/i })
+      .click()
+    await expect(page).toHaveURL(/\/dashboard$/)
+    await expect(
+      page.getByRole('heading', { name: 'Dashboard', exact: true })
+    ).toBeVisible()
+  })
+
+  test('shows the coming-soon state on the dashboard', async ({ page }) => {
+    await page.goto('/dashboard')
+    await expect(page.getByText(/your journey star dashboard/i)).toBeVisible()
+  })
+})
+
+test.describe('Routing', () => {
+  test('renders a 404 page for unknown routes', async ({ page }) => {
+    const response = await page.goto('/this-route-does-not-exist')
+    expect(response?.status()).toBe(404)
+    await expect(
+      page.getByRole('heading', { name: /page not found/i })
+    ).toBeVisible()
+  })
+})

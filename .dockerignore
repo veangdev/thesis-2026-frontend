@@ -1,0 +1,41 @@
+# Dependencies & build output
+node_modules
+.next
+out
+build
+coverage
+
+# Version control & CI
+.git
+.github
+.husky
+
+# Tests & reports
+tests
+playwright-report
+test-results
+blob-report
+
+# Env & secrets (provided at build/run time)
+.env
+.env.*
+!.env.example
+
+# Editor / OS
+.vscode
+.idea
+.DS_Store
+
+# Docs & misc not needed in the image
+README.md
+CONTRIBUTING.md
+CLAUDE.md
+AGENTS.md
+CLAUDE_CODE_PROMPT.md
+docs
+*.tsbuildinfo
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore

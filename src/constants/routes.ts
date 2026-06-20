@@ -1,0 +1,26 @@
+/**
+ * Centralized route table. Import these instead of hard-coding path strings
+ * so links stay refactor-safe and the proxy/guards share one source of truth.
+ */
+export const ROUTES = {
+  home: '/',
+  dashboard: '/dashboard',
+
+  // Auth (prepared for when the backend is ready — not yet wired into the UI).
+  login: '/login',
+  forgotPassword: '/forgot-password',
+  resetPassword: '/reset-password',
+} as const
+
+/** Routes that never require authentication. */
+export const PUBLIC_ROUTES: string[] = [
+  ROUTES.home,
+  ROUTES.login,
+  ROUTES.forgotPassword,
+  ROUTES.resetPassword,
+]
+
+/** Routes that will require authentication once enforcement is enabled. */
+export const PROTECTED_ROUTES: string[] = [ROUTES.dashboard]
+
+export type AppRoute = (typeof ROUTES)[keyof typeof ROUTES]
