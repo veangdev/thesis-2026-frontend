@@ -21,15 +21,15 @@ interface NavItem {
   icon: LucideIcon
 }
 
-// Foundation navigation. These point at the dashboard for now; each will get its
-// own route as the corresponding feature is built against the backend.
+// Foundation navigation. Each item has its own route; pages currently render a
+// "coming soon" state until the corresponding feature is built.
 const NAV_ITEMS: NavItem[] = [
   { label: 'Dashboard', href: ROUTES.dashboard, icon: LayoutDashboard },
-  { label: 'Journey Star', href: ROUTES.dashboard, icon: Star },
-  { label: 'Goals', href: ROUTES.dashboard, icon: Target },
-  { label: 'Coaching', href: ROUTES.dashboard, icon: Calendar },
-  { label: 'Reports', href: ROUTES.dashboard, icon: BarChart3 },
-  { label: 'Users', href: ROUTES.dashboard, icon: Users },
+  { label: 'Journey Star', href: ROUTES.journeyStar, icon: Star },
+  { label: 'Goals', href: ROUTES.goals, icon: Target },
+  { label: 'Coaching', href: ROUTES.coaching, icon: Calendar },
+  { label: 'Reports', href: ROUTES.reports, icon: BarChart3 },
+  { label: 'Users', href: ROUTES.users, icon: Users },
 ]
 
 export function DashboardSidebar() {
@@ -41,17 +41,19 @@ export function DashboardSidebar() {
         <AppLogo />
       </div>
       <nav className="flex-1 space-y-1 p-3">
-        {NAV_ITEMS.map((item, index) => {
+        {NAV_ITEMS.map((item) => {
           const Icon = item.icon
-          const active = index === 0 && pathname === item.href
+          const active =
+            pathname === item.href || pathname.startsWith(`${item.href}/`)
           return (
             <Link
               key={item.label}
               href={item.href}
+              aria-current={active ? 'page' : undefined}
               className={cn(
                 'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
                 active
-                  ? 'bg-sidebar-accent text-sidebar-accent-foreground'
+                  ? 'bg-primary text-primary-foreground'
                   : 'text-muted-foreground hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground'
               )}
             >

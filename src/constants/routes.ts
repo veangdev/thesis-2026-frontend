@@ -4,7 +4,14 @@
  */
 export const ROUTES = {
   home: '/',
+
+  // Dashboard area.
   dashboard: '/dashboard',
+  journeyStar: '/journey-star',
+  goals: '/goals',
+  coaching: '/coaching',
+  reports: '/reports',
+  users: '/users',
 
   // Auth (prepared for when the backend is ready — not yet wired into the UI).
   login: '/login',
@@ -21,6 +28,13 @@ export const PUBLIC_ROUTES: string[] = [
 ]
 
 /** Routes that will require authentication once enforcement is enabled. */
-export const PROTECTED_ROUTES: string[] = [ROUTES.dashboard]
+export const PROTECTED_ROUTES: string[] = [
+  ROUTES.dashboard,
+  ROUTES.journeyStar,
+  ROUTES.goals,
+  ROUTES.coaching,
+  ROUTES.reports,
+  ROUTES.users,
+]
 
 export type AppRoute = (typeof ROUTES)[keyof typeof ROUTES]
