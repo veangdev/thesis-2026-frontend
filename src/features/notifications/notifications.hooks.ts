@@ -6,10 +6,14 @@ import { notificationKeys } from './notifications.keys'
 import type { NotificationListParams } from './notifications.types'
 import { notificationsService } from './index'
 
-export function useNotifications(params?: NotificationListParams) {
+export function useNotifications(
+  params?: NotificationListParams,
+  options?: { enabled?: boolean }
+) {
   return useQuery({
     queryKey: notificationKeys.list(params),
     queryFn: () => notificationsService.list(params),
+    enabled: options?.enabled ?? true,
     // Keep the topbar bell reasonably fresh.
     refetchInterval: 60_000,
   })

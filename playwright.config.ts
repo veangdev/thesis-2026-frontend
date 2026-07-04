@@ -26,10 +26,12 @@ export default defineConfig({
   ],
 
   // In CI the app is built first, then served with `yarn start`.
+  // E2E always runs in mock mode so the suite needs no backend.
   webServer: {
     command: process.env.CI ? `yarn start -p ${PORT}` : `yarn dev -p ${PORT}`,
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
+    env: { NEXT_PUBLIC_USE_MOCKS: 'true' },
   },
 })

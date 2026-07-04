@@ -83,25 +83,29 @@ function Calendar({
             <ChevronRightIcon className="size-4" {...chevronProps} />
           ),
         DayButton: ({
-          day: _day,
+          day,
           modifiers,
           className: dayClassName,
           ...dayProps
-        }) => (
-          <button
-            className={cn(
-              buttonVariants({ variant: 'ghost' }),
-              'size-8 w-full p-0 font-normal',
-              modifiers.selected &&
-                !modifiers.range_middle &&
-                'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground',
-              modifiers.range_middle &&
-                'bg-accent text-accent-foreground rounded-none',
-              dayClassName
-            )}
-            {...dayProps}
-          />
-        ),
+        }) => {
+          // `day` is destructured only so it is not spread onto the DOM element.
+          void day
+          return (
+            <button
+              className={cn(
+                buttonVariants({ variant: 'ghost' }),
+                'size-8 w-full p-0 font-normal',
+                modifiers.selected &&
+                  !modifiers.range_middle &&
+                  'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground',
+                modifiers.range_middle &&
+                  'bg-accent text-accent-foreground rounded-none',
+                dayClassName
+              )}
+              {...dayProps}
+            />
+          )
+        },
       }}
       {...props}
     />
