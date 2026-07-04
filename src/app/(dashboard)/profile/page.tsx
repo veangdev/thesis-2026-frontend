@@ -1,21 +1,15 @@
 import type { Metadata } from 'next'
 import { DashboardTopbar } from '@/components/layouts/dashboard-topbar'
-import { ComingSoon } from '@/components/shared/coming-soon'
+import { ProfileCard } from '@/components/features/profile/profile-card'
 
 export const metadata: Metadata = { title: 'Profile' }
 
 export default function ProfilePage() {
   return (
     <>
-      <DashboardTopbar
-        title="Profile"
-        subtitle="Your account details and preferences"
-      />
+      <DashboardTopbar title="Profile" subtitle="Your account details" />
       <div className="p-4 sm:p-6">
-        <ComingSoon
-          title="Profile is on the way"
-          description="View and edit your personal details, avatar and role once the backend is connected."
-        />
+        <ProfileCard />
       </div>
     </>
   )

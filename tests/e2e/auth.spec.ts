@@ -16,6 +16,9 @@ async function login(page: Page, email: string) {
 }
 
 test.describe('Authentication', () => {
+  // Sidebar-based assertions need the desktop layout.
+  test.skip(({ isMobile }) => !!isMobile, 'desktop-only assertions')
+
   test('rejects wrong credentials', async ({ page }) => {
     await page.goto('/login')
     await page.getByLabel('Email').fill('student@pnc.edu')

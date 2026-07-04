@@ -45,7 +45,13 @@
   --zone-developing: oklch(0.769 0.166 70.08);
   --zone-thriving: oklch(0.696 0.17 162.48);
 
-  --chart-1: var(--brand-navy);
+  /*
+   * Chart series palette — validated with the dataviz six-checks script
+   * (lightness band, chroma, CVD separation, contrast) for the light surface.
+   * chart-1 is a lighter step of brand navy: the raw brand value fails the
+   * light-mode lightness band.
+   */
+  --chart-1: oklch(0.48 0.15 264.05);
   --chart-2: var(--brand-emerald);
   --chart-3: var(--brand-gold);
   --chart-4: oklch(0.627 0.265 303.9);
@@ -93,9 +99,10 @@
   --zone-developing: oklch(0.828 0.166 70.08);
   --zone-thriving: oklch(0.765 0.17 162.48);
 
+  /* Chart palette re-selected for the dark surface (validated, L 0.48–0.67). */
   --chart-1: var(--brand-navy);
-  --chart-2: var(--brand-emerald);
-  --chart-3: var(--brand-gold);
+  --chart-2: oklch(0.66 0.15 162.48);
+  --chart-3: oklch(0.66 0.14 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
 
