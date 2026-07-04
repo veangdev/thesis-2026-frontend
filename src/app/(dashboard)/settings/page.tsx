@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import { DashboardTopbar } from '@/components/layouts/dashboard-topbar'
-import { ComingSoon } from '@/components/shared/coming-soon'
+import { EmptyState } from '@/components/shared/empty-state'
+import { CoordinatorSettings } from '@/components/features/settings/coordinator-settings'
+import { ROLES } from '@/constants/roles'
+import { RequireRole } from '@/features/auth'
 
 export const metadata: Metadata = { title: 'Settings' }
 
@@ -9,13 +12,20 @@ export default function SettingsPage() {
     <>
       <DashboardTopbar
         title="Settings"
-        subtitle="Manage your workspace and preferences"
+        subtitle="Periods, dimensions, scoring scales, and rules"
       />
       <div className="p-4 sm:p-6">
-        <ComingSoon
-          title="Settings are on the way"
-          description="Configure notifications, appearance and account settings once the backend is connected."
-        />
+        <RequireRole
+          allow={ROLES.PROGRAM_COORDINATOR}
+          fallback={
+            <EmptyState
+              title="Coordinators only"
+              description="Program configuration is restricted to coordinators. Your personal details live on the Profile page."
+            />
+          }
+        >
+          <CoordinatorSettings />
+        </RequireRole>
       </div>
     </>
   )
