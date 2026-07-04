@@ -1,0 +1,113 @@
+'use client'
+
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { userKeys } from './users.keys'
+import type {
+  AssignmentPayload,
+  UserListParams,
+  UserPayload,
+} from './users.types'
+import { usersService } from './index'
+
+export function useUsers(params?: UserListParams) {
+  return useQuery({
+    queryKey: userKeys.list(params),
+    queryFn: () => usersService.list(params),
+  })
+}
+
+export function useUser(id: string | undefined) {
+  return useQuery({
+    queryKey: userKeys.detail(id ?? ''),
+    queryFn: () => usersService.getById(id as string),
+    enabled: !!id,
+  })
+}
+
+export function useFacilitatorStudents(facilitatorId: string | undefined) {
+  return useQuery({
+    queryKey: userKeys.facilitatorStudents(facilitatorId ?? ''),
+    queryFn: () => usersService.facilitatorStudents(facilitatorId as string),
+    enabled: !!facilitatorId,
+  })
+}
+
+export function useAssignments(cohortId?: string) {
+  return useQuery({
+    queryKey: userKeys.assignments(cohortId),
+    queryFn: () => usersService.listAssignments(cohortId),
+  })
+}
+
+export function useCreateUser() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (payload: UserPayload) => usersService.create(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: userKeys.all })
+      toast.success('User created')
+    },
+    onError: (error) => toast.error(error.message || 'Failed to create user'),
+  })
+}
+
+export function useUpdateUser() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: ({
+      id,
+      payload,
+    }: {
+      id: string
+      payload: Partial<UserPayload>
+    }) => usersService.update(id, payload),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: userKeys.all }),
+    onError: (error) => toast.error(error.message || 'Failed to update user'),
+  })
+}
+
+export function useDeleteUser() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (id: string) => usersService.remove(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: userKeys.all })
+      toast.success('User removed')
+    },
+    onError: (error) => toast.error(error.message || 'Failed to remove user'),
+  })
+}
+
+export function useBulkCreateUsers() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (payloads: UserPayload[]) => usersService.bulkCreate(payloads),
+    onSuccess: (created) => {
+      queryClient.invalidateQueries({ queryKey: userKeys.all })
+      toast.success(`${created.length} users imported`)
+    },
+    onError: (error) => toast.error(error.message || 'Bulk import failed'),
+  })
+}
+
+export function useCreateAssignment() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (payload: AssignmentPayload) =>
+      usersService.createAssignment(payload),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: userKeys.all }),
+    onError: (error) =>
+      toast.error(error.message || 'Failed to assign student'),
+  })
+}
+
+export function useDeleteAssignment() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (id: string) => usersService.deleteAssignment(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: userKeys.all }),
+    onError: (error) =>
+      toast.error(error.message || 'Failed to unassign student'),
+  })
+}
