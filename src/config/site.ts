@@ -18,8 +18,8 @@ export const siteConfig = {
   ],
 
   cta: {
-    primary: { title: 'Open dashboard', href: ROUTES.dashboard },
-    secondary: { title: 'Learn more', href: '#how-it-works' },
+    primary: { title: 'Start Assessment', href: ROUTES.login },
+    secondary: { title: 'Explore Dashboard', href: ROUTES.dashboard },
   },
 } as const
 

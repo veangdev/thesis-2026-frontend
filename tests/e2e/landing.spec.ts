@@ -28,7 +28,7 @@ test.describe('Landing page', () => {
     await page.goto('/')
     await page
       .locator('#overview')
-      .getByRole('link', { name: /open dashboard/i })
+      .getByRole('link', { name: /explore dashboard/i })
       .click()
     await expect(page).toHaveURL(/\/login/)
     await expect(
