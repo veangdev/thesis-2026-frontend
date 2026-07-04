@@ -47,7 +47,7 @@ test.describe('Routing', () => {
     const response = await page.goto('/this-route-does-not-exist')
     expect(response?.status()).toBe(404)
     await expect(
-      page.getByRole('heading', { name: /page not found/i })
+      page.getByRole('heading', { name: /this star isn't on the map/i })
     ).toBeVisible()
   })
 })
