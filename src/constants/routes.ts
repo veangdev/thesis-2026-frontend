@@ -12,10 +12,15 @@ export const ROUTES = {
   coaching: '/coaching',
   reports: '/reports',
   users: '/users',
+  teams: '/teams',
+  assessments: '/assessments',
+  assessmentDetail: (id: string) => `/assessments/${id}`,
+  assessmentGap: (id: string) => `/assessments/${id}/gap`,
+  notifications: '/notifications',
   profile: '/profile',
   settings: '/settings',
 
-  // Auth (prepared for when the backend is ready — not yet wired into the UI).
+  // Auth.
   login: '/login',
   forgotPassword: '/forgot-password',
   resetPassword: '/reset-password',
@@ -29,7 +34,7 @@ export const PUBLIC_ROUTES: string[] = [
   ROUTES.resetPassword,
 ]
 
-/** Routes that will require authentication once enforcement is enabled. */
+/** Routes that require authentication once enforcement is enabled. */
 export const PROTECTED_ROUTES: string[] = [
   ROUTES.dashboard,
   ROUTES.journeyStar,
@@ -37,8 +42,9 @@ export const PROTECTED_ROUTES: string[] = [
   ROUTES.coaching,
   ROUTES.reports,
   ROUTES.users,
+  ROUTES.teams,
+  ROUTES.assessments,
+  ROUTES.notifications,
   ROUTES.profile,
   ROUTES.settings,
 ]
-
-export type AppRoute = (typeof ROUTES)[keyof typeof ROUTES]

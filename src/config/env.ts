@@ -13,11 +13,13 @@ const clientEnvSchema = z.object({
     .url()
     .default('http://localhost:3000/api/v1'),
   NEXT_PUBLIC_APP_NAME: z.string().default('PNC Journey Star'),
+  NEXT_PUBLIC_USE_MOCKS: z.enum(['true', 'false']).default('false'),
 })
 
 const parsed = clientEnvSchema.safeParse({
   NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL,
   NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
+  NEXT_PUBLIC_USE_MOCKS: process.env.NEXT_PUBLIC_USE_MOCKS,
 })
 
 if (!parsed.success) {
@@ -32,6 +34,8 @@ if (!parsed.success) {
 export const env = {
   apiBaseUrl: parsed.data.NEXT_PUBLIC_API_BASE_URL,
   appName: parsed.data.NEXT_PUBLIC_APP_NAME,
+  /** When true, all services resolve to the in-memory mock implementations. */
+  useMocks: parsed.data.NEXT_PUBLIC_USE_MOCKS === 'true',
   isProduction: process.env.NODE_ENV === 'production',
   isDevelopment: process.env.NODE_ENV === 'development',
 } as const

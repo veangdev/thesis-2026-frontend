@@ -1,25 +1,13 @@
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
-import { SCORE_ZONES, type ScoreZone } from '@/constants/app'
 
 /** Merge conditional class names and resolve Tailwind conflicts. */
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-/** Map a 1–10 score to its zone key. Returns null when there is no score. */
-export function getScoreZone(score: number | null): ScoreZone | null {
-  if (score === null) return null
-  if (score <= SCORE_ZONES.STRUGGLING.max) return 'STRUGGLING'
-  if (score <= SCORE_ZONES.DEVELOPING.max) return 'DEVELOPING'
-  return 'THRIVING'
-}
-
-/** Human-readable zone label for a score (e.g. "Thriving"). */
-export function getScoreLabel(score: number | null): string {
-  const zone = getScoreZone(score)
-  return zone ? SCORE_ZONES[zone].label : '—'
-}
+// Score/zone helpers live in `src/lib/scoring.ts` — they must derive from the
+// cohort's configurable scoringScaleMax, so there are no fixed-scale versions.
 
 export function formatDate(date: string | Date): string {
   return new Date(date).toLocaleDateString('en-GB', {

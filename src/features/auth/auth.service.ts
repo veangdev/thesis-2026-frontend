@@ -20,7 +20,7 @@ export const authService = {
       payload,
       { auth: false }
     )
-    setTokens(res.tokens)
+    setTokens({ accessToken: res.accessToken, refreshToken: res.refreshToken })
     return res
   },
 
