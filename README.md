@@ -174,5 +174,5 @@ To enable enforcement later: connect the login flow to `authService`, then flip
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the branching strategy, commit
+See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for the branching strategy, commit
 convention, and PR guidelines.

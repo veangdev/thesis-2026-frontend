@@ -12,6 +12,7 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 import { AppLogo } from '@/components/shared/app-logo'
+import { UserMenu } from './user-menu'
 import { ROUTES } from '@/constants/routes'
 import { cn } from '@/lib/utils'
 
@@ -63,6 +64,9 @@ export function DashboardSidebar() {
           )
         })}
       </nav>
+      <div className="border-t p-3">
+        <UserMenu variant="sidebar" />
+      </div>
     </aside>
   )
 }

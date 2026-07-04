@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { ModeToggle } from '@/components/shared/mode-toggle'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { UserMenu } from './user-menu'
 import { Button } from '@/components/ui/button'
 import { ROUTES } from '@/constants/routes'
 
@@ -32,11 +32,9 @@ export function DashboardTopbar({ title, subtitle }: DashboardTopbarProps) {
           )}
         </div>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1 sm:gap-2">
         <ModeToggle />
-        <Avatar className="size-8">
-          <AvatarFallback>PNC</AvatarFallback>
-        </Avatar>
+        <UserMenu variant="topbar" />
       </div>
     </header>
   )

@@ -12,6 +12,8 @@ export const ROUTES = {
   coaching: '/coaching',
   reports: '/reports',
   users: '/users',
+  profile: '/profile',
+  settings: '/settings',
 
   // Auth (prepared for when the backend is ready — not yet wired into the UI).
   login: '/login',
@@ -35,6 +37,8 @@ export const PROTECTED_ROUTES: string[] = [
   ROUTES.coaching,
   ROUTES.reports,
   ROUTES.users,
+  ROUTES.profile,
+  ROUTES.settings,
 ]
 
 export type AppRoute = (typeof ROUTES)[keyof typeof ROUTES]
