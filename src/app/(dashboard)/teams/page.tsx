@@ -13,7 +13,7 @@ export default function TeamsPage() {
         title="Teams"
         subtitle="Mentor and student assignments"
       />
-      <div className="p-4 sm:p-6">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6">
         <RoleSwitch
           facilitator={<FacilitatorTeams />}
           coordinator={<CoordinatorTeams />}

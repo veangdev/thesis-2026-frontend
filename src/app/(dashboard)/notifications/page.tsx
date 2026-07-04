@@ -11,7 +11,7 @@ export default function NotificationsPage() {
         title="Notifications"
         subtitle="Everything that needs your attention"
       />
-      <div className="p-4 sm:p-6">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6">
         <NotificationsCenter />
       </div>
     </>

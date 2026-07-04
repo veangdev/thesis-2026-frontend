@@ -14,7 +14,7 @@ export default function ReportsPage() {
         title="Reports"
         subtitle="Trends, comparisons and history"
       />
-      <div className="p-4 sm:p-6">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6">
         <RoleSwitch
           student={<StudentReports />}
           facilitator={<FacilitatorReports />}

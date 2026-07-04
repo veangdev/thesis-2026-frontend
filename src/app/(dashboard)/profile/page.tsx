@@ -10,7 +10,7 @@ export default function ProfilePage() {
   return (
     <>
       <DashboardTopbar title="Profile" subtitle="Your account details" />
-      <div className="space-y-4 p-4 sm:p-6">
+      <div className="flex-1 space-y-4 overflow-y-auto p-4 sm:p-6">
         <ProfileCard />
         <RoleSwitch facilitator={<FacilitatorProfileExtras />} />
       </div>

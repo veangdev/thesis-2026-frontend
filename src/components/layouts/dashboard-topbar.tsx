@@ -14,7 +14,7 @@ interface DashboardTopbarProps {
 
 export function DashboardTopbar({ title, subtitle }: DashboardTopbarProps) {
   return (
-    <header className="bg-background flex h-16 items-center justify-between gap-3 border-b px-4 sm:px-6">
+    <header className="bg-background flex h-16 shrink-0 items-center justify-between gap-3 border-b px-4 sm:px-6">
       <div className="flex min-w-0 items-center gap-3">
         <Button
           variant="ghost"

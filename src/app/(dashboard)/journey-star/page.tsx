@@ -17,7 +17,7 @@ export default async function JourneyStarPage({
         title="Journey Star"
         subtitle="The whole journey on one star"
       />
-      <div className="p-4 sm:p-6">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6">
         <JourneyStarView initialStudentId={studentId} />
       </div>
     </>

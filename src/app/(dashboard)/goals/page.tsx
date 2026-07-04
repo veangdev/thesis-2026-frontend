@@ -11,7 +11,7 @@ export default function GoalsPage() {
         title="Goals & Growth"
         subtitle="Intentions and milestones per dimension"
       />
-      <div className="p-4 sm:p-6">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6">
         <GoalsView />
       </div>
     </>

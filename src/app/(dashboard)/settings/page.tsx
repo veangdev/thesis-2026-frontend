@@ -14,7 +14,7 @@ export default function SettingsPage() {
         title="Settings"
         subtitle="Periods, dimensions, scoring scales, and rules"
       />
-      <div className="p-4 sm:p-6">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6">
         <RequireRole
           allow={ROLES.PROGRAM_COORDINATOR}
           fallback={

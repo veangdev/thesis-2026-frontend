@@ -17,7 +17,7 @@ export default async function GapAnalysisPage({
         title="Gap Analysis"
         subtitle="Where self-perception meets mentor perspective"
       />
-      <div className="p-4 sm:p-6">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6">
         <GapAnalysisView assessmentId={id} />
       </div>
     </>

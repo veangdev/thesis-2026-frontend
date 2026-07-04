@@ -14,7 +14,7 @@ export default function AssessmentsPage() {
         title="Assessments"
         subtitle="Self-assessments across your cycles"
       />
-      <div className="p-4 sm:p-6">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6">
         <RoleSwitch
           student={<StudentAssessmentsList />}
           facilitator={<FacilitatorReviewQueue />}

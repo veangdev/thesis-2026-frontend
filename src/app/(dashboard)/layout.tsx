@@ -13,9 +13,13 @@ export default function DashboardLayout({
 }) {
   return (
     <RequireAuth>
-      <div className="bg-muted/30 flex min-h-screen">
+      {/* Fixed-viewport shell: sidebar and topbar never move — each page's
+          content area is the only scroll container. */}
+      <div className="bg-muted/30 flex h-dvh overflow-hidden">
         <DashboardSidebar />
-        <div className="flex min-w-0 flex-1 flex-col">{children}</div>
+        <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+          {children}
+        </div>
       </div>
     </RequireAuth>
   )
