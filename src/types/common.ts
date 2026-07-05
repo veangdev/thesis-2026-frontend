@@ -6,16 +6,21 @@ export interface ApiResponse<T> {
   success: boolean
 }
 
+/** List envelope returned by every collection endpoint (spec §3). */
 export interface PaginatedResponse<T> {
   data: T[]
-  total: number
+  meta: PaginationMeta
+}
+
+export interface PaginationMeta {
   page: number
-  limit: number
+  pageSize: number
+  total: number
 }
 
 export interface PaginationParams {
   page?: number
-  limit?: number
+  pageSize?: number
   search?: string
 }
 

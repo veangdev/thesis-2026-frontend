@@ -1,5 +1,11 @@
 import { env } from '@/config/env'
-import { getAccessToken } from '@/lib/auth'
+import { API_ENDPOINTS } from '@/constants/api'
+import {
+  clearTokens,
+  getAccessToken,
+  getRefreshToken,
+  setTokens,
+} from '@/lib/auth'
 
 export type QueryValue = string | number | boolean | null | undefined
 
@@ -61,11 +67,72 @@ function extractMessage(payload: unknown): string | undefined {
   return undefined
 }
 
+/**
+ * Called when a 401 could not be recovered by a token refresh (session truly
+ * expired). Registered from the app shell to clear client auth state and
+ * redirect — kept as a callback so this module never imports feature code.
+ */
+type UnauthorizedHandler = () => void
+let onUnauthorized: UnauthorizedHandler | null = null
+
+export function registerUnauthorizedHandler(handler: UnauthorizedHandler) {
+  onUnauthorized = handler
+}
+
+/**
+ * Single-flight refresh: concurrent 401s all await the same refresh request.
+ * Uses raw fetch (not `request`) to avoid recursion.
+ */
+let refreshPromise: Promise<boolean> | null = null
+
+async function tryRefreshTokens(): Promise<boolean> {
+  if (!refreshPromise) {
+    refreshPromise = (async () => {
+      const refreshToken = getRefreshToken()
+      if (!refreshToken) return false
+      try {
+        const response = await fetch(buildUrl(API_ENDPOINTS.auth.refresh), {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify({ refreshToken }),
+        })
+        if (!response.ok) return false
+        const tokens = (await response.json()) as {
+          accessToken: string
+          refreshToken: string
+        }
+        if (!tokens?.accessToken) return false
+        setTokens(tokens)
+        return true
+      } catch {
+        return false
+      } finally {
+        // Allow a future refresh cycle once this one settles.
+        setTimeout(() => {
+          refreshPromise = null
+        }, 0)
+      }
+    })()
+  }
+  return refreshPromise
+}
+
+/** Auth endpoints where a 401 is a real answer, not an expired session. */
+function isAuthPath(path: string): boolean {
+  return (
+    path === API_ENDPOINTS.auth.login || path === API_ENDPOINTS.auth.refresh
+  )
+}
+
 async function request<T>(
   method: string,
   path: string,
   body?: unknown,
-  options: RequestOptions = {}
+  options: RequestOptions = {},
+  isRetry = false
 ): Promise<T> {
   const { params, headers, signal, auth = true } = options
 
@@ -101,6 +168,16 @@ async function request<T>(
       throw new ApiError('Request was cancelled', 0)
     }
     throw new ApiError('Network request failed', 0, error)
+  }
+
+  // Expired access token: refresh once (single-flight) and retry the request.
+  if (response.status === 401 && auth && !isRetry && !isAuthPath(path)) {
+    const refreshed = await tryRefreshTokens()
+    if (refreshed) {
+      return request<T>(method, path, body, options, true)
+    }
+    clearTokens()
+    onUnauthorized?.()
   }
 
   const payload = await parseBody(response)

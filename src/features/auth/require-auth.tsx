@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useSyncExternalStore } from 'react'
 import { useRouter } from 'next/navigation'
 import { LoadingOverlay } from '@/components/shared/loading-overlay'
 import { useAuthStore } from './auth.store'
@@ -15,9 +15,10 @@ interface RequireAuthProps {
 /**
  * Client-side auth guard. Redirects unauthenticated users to the login page.
  *
- * This is part of the auth FOUNDATION and is intentionally not mounted anywhere
- * yet — protected areas will wrap their content with it once the backend is
- * ready. It contains no fake-auth logic; it only reads real auth state.
+ * The persisted auth store rehydrates ASYNCHRONOUSLY on a hard load, so the
+ * guard must wait for hydration before judging the session — otherwise every
+ * protected deep link briefly reads as signed-out and bounces via /login,
+ * losing the requested path.
  */
 export function RequireAuth({
   children,
@@ -25,12 +26,17 @@ export function RequireAuth({
 }: RequireAuthProps) {
   const router = useRouter()
   const { isAuthenticated, status } = useAuthStore()
+  const hydrated = useSyncExternalStore(
+    (onHydrated) => useAuthStore.persist.onFinishHydration(onHydrated),
+    () => useAuthStore.persist.hasHydrated(),
+    () => false
+  )
 
   useEffect(() => {
-    if (status !== 'loading' && !isAuthenticated) {
+    if (hydrated && status !== 'loading' && !isAuthenticated) {
       router.replace(redirectTo)
     }
-  }, [isAuthenticated, status, redirectTo, router])
+  }, [hydrated, isAuthenticated, status, redirectTo, router])
 
   if (!isAuthenticated) {
     return <LoadingOverlay label="Checking your session…" />

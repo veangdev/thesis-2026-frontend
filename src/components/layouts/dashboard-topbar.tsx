@@ -1,9 +1,11 @@
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { ModeToggle } from '@/components/shared/mode-toggle'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { ROUTES } from '@/constants/routes'
+import { GlobalSearch } from './global-search'
+import { NotificationsMenu } from './notifications-menu'
+import { UserMenu } from './user-menu'
 
 interface DashboardTopbarProps {
   title: string
@@ -12,8 +14,8 @@ interface DashboardTopbarProps {
 
 export function DashboardTopbar({ title, subtitle }: DashboardTopbarProps) {
   return (
-    <header className="bg-background flex h-16 items-center justify-between border-b px-4 sm:px-6">
-      <div className="flex items-center gap-3">
+    <header className="bg-background flex h-16 shrink-0 items-center justify-between gap-3 border-b px-4 sm:px-6">
+      <div className="flex min-w-0 items-center gap-3">
         <Button
           variant="ghost"
           size="icon"
@@ -25,18 +27,20 @@ export function DashboardTopbar({ title, subtitle }: DashboardTopbarProps) {
             <ArrowLeft className="size-5" />
           </Link>
         </Button>
-        <div>
-          <h1 className="text-base leading-tight font-semibold">{title}</h1>
+        <div className="min-w-0">
+          <h1 className="font-heading truncate text-base leading-tight font-semibold">
+            {title}
+          </h1>
           {subtitle && (
-            <p className="text-muted-foreground text-xs">{subtitle}</p>
+            <p className="text-muted-foreground truncate text-xs">{subtitle}</p>
           )}
         </div>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1 sm:gap-2">
+        <GlobalSearch />
+        <NotificationsMenu />
         <ModeToggle />
-        <Avatar className="size-8">
-          <AvatarFallback>PNC</AvatarFallback>
-        </Avatar>
+        <UserMenu variant="topbar" />
       </div>
     </header>
   )

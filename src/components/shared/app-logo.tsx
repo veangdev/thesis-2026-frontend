@@ -1,5 +1,5 @@
+import Image from 'next/image'
 import Link from 'next/link'
-import { Star } from 'lucide-react'
 import { siteConfig } from '@/config/site'
 import { ROUTES } from '@/constants/routes'
 import { cn } from '@/lib/utils'
@@ -21,9 +21,13 @@ export function AppLogo({
       href={href}
       className={cn('flex items-center gap-2.5 font-semibold', className)}
     >
-      <span className="bg-primary text-primary-foreground flex size-8 shrink-0 items-center justify-center rounded-lg">
-        <Star className="size-4" />
-      </span>
+      <Image
+        src="/logo.png"
+        alt={`${siteConfig.shortName} logo`}
+        width={32}
+        height={32}
+        className="ring-border size-8 shrink-0 rounded-full ring-1"
+      />
       {!iconOnly && (
         <span className="text-foreground text-sm leading-tight">
           {siteConfig.shortName}

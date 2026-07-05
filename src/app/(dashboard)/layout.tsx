@@ -1,9 +1,10 @@
 import { DashboardSidebar } from '@/components/layouts/dashboard-sidebar'
+import { RequireAuth } from '@/features/auth'
 
 /**
- * Dashboard shell. NOTE: this area is publicly accessible for now — route
- * protection lives in `src/proxy.ts` and the auth guards but is intentionally
- * not enforced until the backend auth API is ready.
+ * Dashboard shell. The proxy performs the optimistic cookie check; RequireAuth
+ * is the client-side guard that reacts to real auth state (store hydration,
+ * logout, session expiry).
  */
 export default function DashboardLayout({
   children,
@@ -11,9 +12,15 @@ export default function DashboardLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="bg-muted/30 flex min-h-screen">
-      <DashboardSidebar />
-      <div className="flex min-w-0 flex-1 flex-col">{children}</div>
-    </div>
+    <RequireAuth>
+      {/* Fixed-viewport shell: sidebar and topbar never move — each page's
+          content area is the only scroll container. */}
+      <div className="bg-muted/30 flex h-dvh overflow-hidden">
+        <DashboardSidebar />
+        <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+          {children}
+        </div>
+      </div>
+    </RequireAuth>
   )
 }

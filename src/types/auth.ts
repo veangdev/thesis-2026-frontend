@@ -8,8 +8,10 @@ export interface User {
   email: string
   role: Role
   avatar?: string
-  batch?: string
-  mentorId?: string
+  /** Cohort the user belongs to (self-assessors) or coordinates. */
+  cohortId?: string
+  /** Assigned facilitator (self-assessors only). */
+  facilitatorId?: string
   createdAt: string
 }
 
@@ -27,12 +29,12 @@ export interface Session {
 export interface LoginPayload {
   email: string
   password: string
-  role: Role
 }
 
 export interface LoginResponse {
   user: User
-  tokens: AuthTokens
+  accessToken: string
+  refreshToken: string
 }
 
 export interface ResetPasswordPayload {

@@ -52,11 +52,15 @@ export const DIMENSIONS = [
   },
 ] as const
 
-/** Score zones used across charts, badges, and reports (1–10 scale). */
+/**
+ * Growth-zone display metadata. Numeric thresholds are NEVER stored here —
+ * they depend on each cohort's `scoringScaleMax` and must always be derived
+ * via `getZoneThresholds()` in `src/lib/scoring.ts`.
+ */
 export const SCORE_ZONES = {
-  STRUGGLING: { min: 1, max: 4, label: 'Struggling', token: 'zone-struggling' },
-  DEVELOPING: { min: 5, max: 7, label: 'Developing', token: 'zone-developing' },
-  THRIVING: { min: 8, max: 10, label: 'Thriving', token: 'zone-thriving' },
+  struggling: { label: 'Struggling', token: 'zone-struggling' },
+  developing: { label: 'Developing', token: 'zone-developing' },
+  thriving: { label: 'Thriving', token: 'zone-thriving' },
 } as const
 
 export type ScoreZone = keyof typeof SCORE_ZONES

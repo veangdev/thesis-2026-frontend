@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import { DashboardTopbar } from '@/components/layouts/dashboard-topbar'
-import { ComingSoon } from '@/components/shared/coming-soon'
+import { RoleSwitch } from '@/components/shared/role-switch'
+import { CoordinatorReports } from '@/components/features/reports/coordinator-reports'
+import { FacilitatorReports } from '@/components/features/reports/facilitator-reports'
+import { StudentReports } from '@/components/features/reports/student-reports'
 
 export const metadata: Metadata = { title: 'Reports' }
 
@@ -9,12 +12,13 @@ export default function ReportsPage() {
     <>
       <DashboardTopbar
         title="Reports"
-        subtitle="Analytics, gap analysis and exports"
+        subtitle="Trends, comparisons and history"
       />
-      <div className="p-4 sm:p-6">
-        <ComingSoon
-          title="Reports are on the way"
-          description="Batch analytics, gap analysis and exportable reports will appear here once the API is connected."
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6">
+        <RoleSwitch
+          student={<StudentReports />}
+          facilitator={<FacilitatorReports />}
+          coordinator={<CoordinatorReports />}
         />
       </div>
     </>

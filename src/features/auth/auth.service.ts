@@ -9,18 +9,21 @@ import type {
   User,
 } from '@/types/auth'
 
+import type { AuthService } from './auth.contract'
+
 /**
- * Auth service — ready to talk to the backend once it exists.
- * These functions intentionally contain no mock/fake-auth shortcuts.
+ * Auth service — talks to the real backend.
+ * These functions intentionally contain no mock/fake-auth shortcuts; mock
+ * mode is provided by `src/mocks/services/auth.mock.ts`.
  */
-export const authService = {
+export const realAuthService: AuthService = {
   async login(payload: LoginPayload): Promise<LoginResponse> {
     const res = await apiClient.post<LoginResponse>(
       API_ENDPOINTS.auth.login,
       payload,
       { auth: false }
     )
-    setTokens(res.tokens)
+    setTokens({ accessToken: res.accessToken, refreshToken: res.refreshToken })
     return res
   },
 

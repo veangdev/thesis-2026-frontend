@@ -22,21 +22,23 @@ test.describe('Landing page', () => {
     ).toBeVisible()
   })
 
-  test('navigates to the dashboard (publicly accessible)', async ({ page }) => {
+  test('dashboard CTA sends signed-out visitors to the login page', async ({
+    page,
+  }) => {
     await page.goto('/')
     await page
       .locator('#overview')
-      .getByRole('link', { name: /open dashboard/i })
+      .getByRole('link', { name: /explore dashboard/i })
       .click()
-    await expect(page).toHaveURL(/\/dashboard$/)
+    await expect(page).toHaveURL(/\/login/)
     await expect(
-      page.getByRole('heading', { name: 'Dashboard', exact: true })
+      page.getByRole('heading', { name: /welcome back/i })
     ).toBeVisible()
   })
 
-  test('shows the coming-soon state on the dashboard', async ({ page }) => {
+  test('deep links to protected routes redirect to login', async ({ page }) => {
     await page.goto('/dashboard')
-    await expect(page.getByText(/your journey star dashboard/i)).toBeVisible()
+    await expect(page).toHaveURL(/\/login/)
   })
 })
 
@@ -45,7 +47,7 @@ test.describe('Routing', () => {
     const response = await page.goto('/this-route-does-not-exist')
     expect(response?.status()).toBe(404)
     await expect(
-      page.getByRole('heading', { name: /page not found/i })
+      page.getByRole('heading', { name: /this star isn't on the map/i })
     ).toBeVisible()
   })
 })

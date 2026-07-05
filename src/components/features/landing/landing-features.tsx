@@ -36,7 +36,7 @@ const FEATURES = [
 
 export function LandingFeatures() {
   return (
-    <section id="how-it-works" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+    <section id="features" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="text-3xl font-semibold tracking-tight">
           Everything in one journey

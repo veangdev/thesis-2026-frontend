@@ -2,46 +2,24 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import {
-  BarChart3,
-  Calendar,
-  LayoutDashboard,
-  Star,
-  Target,
-  Users,
-  type LucideIcon,
-} from 'lucide-react'
 import { AppLogo } from '@/components/shared/app-logo'
-import { ROUTES } from '@/constants/routes'
+import { getNavItems } from '@/config/navigation'
+import { useAuthStore } from '@/features/auth'
 import { cn } from '@/lib/utils'
-
-interface NavItem {
-  label: string
-  href: string
-  icon: LucideIcon
-}
-
-// Foundation navigation. Each item has its own route; pages currently render a
-// "coming soon" state until the corresponding feature is built.
-const NAV_ITEMS: NavItem[] = [
-  { label: 'Dashboard', href: ROUTES.dashboard, icon: LayoutDashboard },
-  { label: 'Journey Star', href: ROUTES.journeyStar, icon: Star },
-  { label: 'Goals', href: ROUTES.goals, icon: Target },
-  { label: 'Coaching', href: ROUTES.coaching, icon: Calendar },
-  { label: 'Reports', href: ROUTES.reports, icon: BarChart3 },
-  { label: 'Users', href: ROUTES.users, icon: Users },
-]
+import { UserMenu } from './user-menu'
 
 export function DashboardSidebar() {
   const pathname = usePathname()
+  const user = useAuthStore((state) => state.user)
+  const items = getNavItems(user?.role)
 
   return (
     <aside className="bg-sidebar hidden w-60 shrink-0 flex-col border-r md:flex">
       <div className="flex h-16 items-center border-b px-5">
         <AppLogo />
       </div>
-      <nav className="flex-1 space-y-1 p-3">
-        {NAV_ITEMS.map((item) => {
+      <nav className="flex-1 space-y-1 overflow-y-auto p-3">
+        {items.map((item) => {
           const Icon = item.icon
           const active =
             pathname === item.href || pathname.startsWith(`${item.href}/`)
@@ -63,6 +41,9 @@ export function DashboardSidebar() {
           )
         })}
       </nav>
+      <div className="border-t p-3">
+        <UserMenu variant="sidebar" />
+      </div>
     </aside>
   )
 }
