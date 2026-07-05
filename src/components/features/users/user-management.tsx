@@ -213,6 +213,7 @@ export function UserManagement() {
               <DialogHeader>
                 <DialogTitle>Add a user</DialogTitle>
                 <DialogDescription>
+                  https://www.youtube.com/watch?v=yvG44_EVCz8&list=RDDC7LVgPxQ1I&index=3
                   They&apos;ll receive an invitation to set their password.
                 </DialogDescription>
               </DialogHeader>

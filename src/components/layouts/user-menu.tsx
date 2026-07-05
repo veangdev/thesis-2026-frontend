@@ -11,7 +11,7 @@ import {
   User,
 } from 'lucide-react'
 import { toast } from 'sonner'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { UserAvatar } from '@/components/shared/user-avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -27,14 +27,6 @@ import { ROLE_BADGE_CLASSES, ROLE_LABELS } from '@/constants/roles'
 import { ROUTES } from '@/constants/routes'
 import { authService, useAuthStore } from '@/features/auth'
 import { cn } from '@/lib/utils'
-
-/** Build up-to-two-letter initials from a display name. */
-function getInitials(name: string): string {
-  const parts = name.trim().split(/\s+/).filter(Boolean)
-  if (parts.length === 0) return '?'
-  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase()
-  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
-}
 
 interface UserMenuProps {
   /**
@@ -52,7 +44,6 @@ export function UserMenu({ variant = 'topbar' }: UserMenuProps) {
   const displayName = user?.name ?? 'Guest'
   const email = user?.email ?? 'Not signed in'
   const roleLabel = user ? ROLE_LABELS[user.role] : undefined
-  const initials = getInitials(displayName)
 
   async function handleLogout() {
     try {
@@ -71,24 +62,29 @@ export function UserMenu({ variant = 'topbar' }: UserMenuProps) {
         {variant === 'sidebar' ? (
           <Button
             variant="ghost"
-            className="h-auto w-full justify-start gap-3 px-2 py-2"
+            className="h-auto w-full justify-start gap-2.5 px-2 py-2"
             aria-label="Open account menu"
           >
-            <Avatar className="size-9">
-              {user?.avatar && (
-                <AvatarImage src={user.avatar} alt={displayName} />
-              )}
-              <AvatarFallback>{initials}</AvatarFallback>
-            </Avatar>
-            <span className="flex min-w-0 flex-1 flex-col text-left">
-              <span className="truncate text-sm leading-tight font-medium">
+            <UserAvatar
+              name={displayName}
+              avatar={user?.avatar}
+              className="size-9"
+            />
+            <span className="flex min-w-0 flex-1 flex-col gap-0.5 text-left">
+              <span
+                className="truncate text-sm leading-tight font-medium"
+                title={displayName}
+              >
                 {displayName}
               </span>
-              <span className="text-muted-foreground truncate text-xs leading-tight">
+              <span
+                className="text-muted-foreground truncate text-xs leading-tight"
+                title={roleLabel ?? email}
+              >
                 {roleLabel ?? email}
               </span>
             </span>
-            <ChevronsUpDown className="text-muted-foreground size-4 shrink-0" />
+            <ChevronsUpDown className="text-muted-foreground size-3.5 shrink-0" />
           </Button>
         ) : (
           <Button
@@ -96,14 +92,16 @@ export function UserMenu({ variant = 'topbar' }: UserMenuProps) {
             className="h-auto gap-2 px-1.5 sm:px-2"
             aria-label="Open account menu"
           >
-            <Avatar className="size-8">
-              {user?.avatar && (
-                <AvatarImage src={user.avatar} alt={displayName} />
-              )}
-              <AvatarFallback>{initials}</AvatarFallback>
-            </Avatar>
-            <span className="hidden text-left sm:flex sm:flex-col">
-              <span className="max-w-[10rem] truncate text-sm leading-tight font-medium">
+            <UserAvatar
+              name={displayName}
+              avatar={user?.avatar}
+              className="size-8"
+            />
+            <span className="hidden text-left sm:flex sm:flex-col sm:gap-0.5">
+              <span
+                className="max-w-40 truncate text-sm leading-tight font-medium"
+                title={displayName}
+              >
                 {displayName}
               </span>
               {roleLabel && (
@@ -124,20 +122,29 @@ export function UserMenu({ variant = 'topbar' }: UserMenuProps) {
         className="w-56"
       >
         <DropdownMenuLabel className="font-normal">
-          <div className="flex flex-col gap-1.5">
-            <span className="truncate text-sm font-medium">{displayName}</span>
-            <span className="text-muted-foreground truncate text-xs">
-              {email}
-            </span>
-            {roleLabel && user && (
-              <Badge
-                variant="secondary"
-                className={cn('w-fit', ROLE_BADGE_CLASSES[user.role])}
-              >
-                {roleLabel}
-              </Badge>
-            )}
+          <div className="flex items-center gap-2.5">
+            <UserAvatar
+              name={displayName}
+              avatar={user?.avatar}
+              className="size-9"
+            />
+            <div className="flex min-w-0 flex-col gap-0.5">
+              <span className="truncate text-sm font-medium">
+                {displayName}
+              </span>
+              <span className="text-muted-foreground truncate text-xs">
+                {email}
+              </span>
+            </div>
           </div>
+          {roleLabel && user && (
+            <Badge
+              variant="secondary"
+              className={cn('mt-2 w-fit', ROLE_BADGE_CLASSES[user.role])}
+            >
+              {roleLabel}
+            </Badge>
+          )}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>

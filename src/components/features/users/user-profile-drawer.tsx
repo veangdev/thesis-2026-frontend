@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { ArrowRight, Star } from 'lucide-react'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { UserAvatar } from '@/components/shared/user-avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -24,7 +24,7 @@ import { ROLE_BADGE_CLASSES, ROLE_LABELS, ROLES } from '@/constants/roles'
 import { ROUTES } from '@/constants/routes'
 import { useCohorts } from '@/features/cohorts'
 import { useCreateAssignment, useUsers, type User } from '@/features/users'
-import { cn, formatDate, getInitials } from '@/lib/utils'
+import { cn, formatDate } from '@/lib/utils'
 
 interface UserProfileDrawerProps {
   user: User | null
@@ -50,9 +50,11 @@ export function UserProfileDrawer({
           <>
             <SheetHeader>
               <div className="flex items-center gap-3">
-                <Avatar className="size-12">
-                  <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
-                </Avatar>
+                <UserAvatar
+                  name={user.name}
+                  avatar={user.avatar}
+                  className="size-12"
+                />
                 <div>
                   <SheetTitle className="font-heading">{user.name}</SheetTitle>
                   <SheetDescription>{user.email}</SheetDescription>

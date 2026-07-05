@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { ArrowRight, Users } from 'lucide-react'
 import { EmptyState } from '@/components/shared/empty-state'
 import { ErrorState } from '@/components/shared/error-state'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { UserAvatar } from '@/components/shared/user-avatar'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -27,7 +27,6 @@ import { useAssessments } from '@/features/assessments'
 import { useAuthStore } from '@/features/auth'
 import { useCohorts } from '@/features/cohorts'
 import { useFacilitatorStudents } from '@/features/users'
-import { getInitials } from '@/lib/utils'
 
 /** Facilitator roster: everyone assigned to me, with quick links. */
 export function FacilitatorTeams() {
@@ -94,11 +93,12 @@ export function FacilitatorTeams() {
               <TableRow key={student.id}>
                 <TableCell>
                   <div className="flex items-center gap-2.5">
-                    <Avatar className="size-8">
-                      <AvatarFallback className="text-xs">
-                        {getInitials(student.name)}
-                      </AvatarFallback>
-                    </Avatar>
+                    <UserAvatar
+                      name={student.name}
+                      avatar={student.avatar}
+                      className="size-8"
+                      fallbackClassName="text-xs"
+                    />
                     <div>
                       <p className="font-medium">{student.name}</p>
                       <p className="text-muted-foreground text-xs">

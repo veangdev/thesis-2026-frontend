@@ -1,6 +1,6 @@
 'use client'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { UserAvatar } from '@/components/shared/user-avatar'
 import { Badge } from '@/components/ui/badge'
 import {
   Card,
@@ -14,7 +14,7 @@ import { ROLE_BADGE_CLASSES, ROLE_LABELS, ROLES } from '@/constants/roles'
 import { useAuthStore } from '@/features/auth'
 import { useCohort } from '@/features/cohorts'
 import { useUser } from '@/features/users'
-import { cn, formatDate, getInitials } from '@/lib/utils'
+import { cn, formatDate } from '@/lib/utils'
 
 /** All-role profile: identity, role, cohort, and mentor details. */
 export function ProfileCard() {
@@ -30,12 +30,12 @@ export function ProfileCard() {
     <div className="mx-auto max-w-2xl space-y-4">
       <Card>
         <CardHeader className="flex-row items-center gap-4 space-y-0">
-          <Avatar className="size-16">
-            {user.avatar && <AvatarImage src={user.avatar} alt={user.name} />}
-            <AvatarFallback className="text-lg">
-              {getInitials(user.name)}
-            </AvatarFallback>
-          </Avatar>
+          <UserAvatar
+            name={user.name}
+            avatar={user.avatar}
+            className="size-16"
+            fallbackClassName="text-lg"
+          />
           <div className="space-y-1">
             <CardTitle className="font-heading text-xl">{user.name}</CardTitle>
             <CardDescription>{user.email}</CardDescription>

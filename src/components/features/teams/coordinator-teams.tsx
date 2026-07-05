@@ -4,7 +4,7 @@ import * as React from 'react'
 import { Loader2, UserPlus, Wand2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { ErrorState } from '@/components/shared/error-state'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { UserAvatar } from '@/components/shared/user-avatar'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -24,7 +24,6 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import { ROLES } from '@/constants/roles'
 import { useCreateAssignment, useUsers, type User } from '@/features/users'
-import { getInitials } from '@/lib/utils'
 
 /** Soft cap used for the capacity meters. */
 const CAPACITY = 8
@@ -93,11 +92,12 @@ export function CoordinatorTeams() {
     return (
       <div className="flex items-center justify-between gap-2 rounded-lg border p-2">
         <div className="flex min-w-0 items-center gap-2">
-          <Avatar className="size-7">
-            <AvatarFallback className="text-[10px]">
-              {getInitials(student.name)}
-            </AvatarFallback>
-          </Avatar>
+          <UserAvatar
+            name={student.name}
+            avatar={student.avatar}
+            className="size-7"
+            fallbackClassName="text-[10px]"
+          />
           <span className="truncate text-sm">{student.name}</span>
         </div>
         <Select
@@ -172,11 +172,12 @@ export function CoordinatorTeams() {
             <Card key={mentor.id}>
               <CardHeader className="pb-3">
                 <CardTitle className="font-heading flex items-center gap-2 text-base">
-                  <Avatar className="size-7">
-                    <AvatarFallback className="text-[10px]">
-                      {getInitials(mentor.name)}
-                    </AvatarFallback>
-                  </Avatar>
+                  <UserAvatar
+                    name={mentor.name}
+                    avatar={mentor.avatar}
+                    className="size-7"
+                    fallbackClassName="text-[10px]"
+                  />
                   {mentor.name}
                 </CardTitle>
                 <div className="space-y-1">

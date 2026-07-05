@@ -12,7 +12,7 @@ import { GrowthLine } from '@/components/charts'
 import { AssessmentStatusBadge } from '@/components/features/assessments/assessment-status-badge'
 import { EmptyState } from '@/components/shared/empty-state'
 import { ErrorState } from '@/components/shared/error-state'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { UserAvatar } from '@/components/shared/user-avatar'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -30,7 +30,7 @@ import { useCoachingSessions } from '@/features/coaching'
 import { useCohorts } from '@/features/cohorts'
 import { useFacilitatorStudents } from '@/features/users'
 import { getZone } from '@/lib/scoring'
-import { formatDate, getInitials } from '@/lib/utils'
+import { formatDate } from '@/lib/utils'
 
 /** Average of agreed (fallback self) scores on one assessment. */
 function assessmentAverage(assessment: Assessment): number | null {
@@ -303,11 +303,12 @@ export function FacilitatorDashboard() {
                     className="flex items-center justify-between gap-2 rounded-lg border p-2.5"
                   >
                     <div className="flex min-w-0 items-center gap-2.5">
-                      <Avatar className="size-8">
-                        <AvatarFallback className="text-xs">
-                          {getInitials(student.name)}
-                        </AvatarFallback>
-                      </Avatar>
+                      <UserAvatar
+                        name={student.name}
+                        avatar={student.avatar}
+                        className="size-8"
+                        fallbackClassName="text-xs"
+                      />
                       <p className="truncate text-sm font-medium">
                         {student.name}
                       </p>
