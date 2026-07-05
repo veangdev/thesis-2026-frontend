@@ -55,8 +55,12 @@ jobs:
       - name: Install Playwright browsers
         run: yarn playwright install --with-deps chromium
 
+      # NEXT_PUBLIC_* values are inlined at build time, so mock mode must be
+      # enabled here — setting it on the started server is too late.
       - name: Build
         run: yarn build
+        env:
+          NEXT_PUBLIC_USE_MOCKS: 'true'
 
       - name: Run e2e tests
         run: yarn test:e2e
