@@ -16,10 +16,12 @@ const clientEnvSchema = z.object({
   NEXT_PUBLIC_USE_MOCKS: z.enum(['true', 'false']).default('false'),
 })
 
+// `|| undefined` folds empty strings into "unset" so the schema defaults apply
+// (Docker's `ENV X=$ARG` yields "" when the build arg is omitted).
 const parsed = clientEnvSchema.safeParse({
-  NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL,
-  NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
-  NEXT_PUBLIC_USE_MOCKS: process.env.NEXT_PUBLIC_USE_MOCKS,
+  NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL || undefined,
+  NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME || undefined,
+  NEXT_PUBLIC_USE_MOCKS: process.env.NEXT_PUBLIC_USE_MOCKS || undefined,
 })
 
 if (!parsed.success) {
