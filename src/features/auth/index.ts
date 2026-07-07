@@ -1,12 +1,18 @@
+import { mockAuthService } from '@/mocks/services/auth.mock'
+import { pickService } from '@/services/service-factory'
 import { realAuthService } from './auth.service'
 import type { AuthService } from './auth.contract'
 
 /**
- * The whole app runs against the real NestJS API (`NEXT_PUBLIC_USE_MOCKS=false`),
- * so authentication uses the real service directly and the authenticated user's
- * real backend id flows through to every feature.
+ * Resolves to the real NestJS API by default, or the in-memory mock when
+ * `NEXT_PUBLIC_USE_MOCKS=true` (e.g. the e2e suite) — matching every other
+ * feature. The authenticated user's id flows through to every feature in both
+ * modes.
  */
-export const authService: AuthService = realAuthService
+export const authService: AuthService = pickService(
+  realAuthService,
+  mockAuthService
+)
 
 export { useAuthStore } from './auth.store'
 export { RequireAuth } from './require-auth'

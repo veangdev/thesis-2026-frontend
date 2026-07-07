@@ -1,8 +1,10 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
+import { env } from '@/config/env'
 import { API_ENDPOINTS } from '@/constants/api'
-import { realCohortsService } from '@/features/cohorts/cohorts.service'
+import { cohortsService } from '@/features/cohorts'
+import { mockAnalyticsService } from '@/mocks/services/analytics.mock'
 import { apiClient } from '@/services/api-client'
 import {
   adaptCohortAnalytics,
@@ -12,17 +14,19 @@ import {
 } from './analytics.adapter'
 
 /**
- * Real-API dashboard hooks. Unlike the feature's default hooks (which follow
- * the global mock/real toggle), these ALWAYS hit the backend and adapt the
- * response — so the dashboard is driven by real data while the rest of the app
- * remains on mocks. Distinct query keys avoid colliding with the mock hooks.
+ * Dashboard hooks for the coordinator home. Against the real backend they hit
+ * the API and aggregate the cross-cohort completion / at-risk counts and cohort
+ * name that the generic analytics service omits. When `NEXT_PUBLIC_USE_MOCKS`
+ * is on (e.g. the e2e suite) they defer to the mock analytics service, which
+ * already returns those fields — so the dashboard works with no backend, like
+ * the rest of the app. Distinct query keys avoid colliding with the mock hooks.
  */
 const KEY = ['analytics', 'real'] as const
 
 export function useRealCohorts() {
   return useQuery({
     queryKey: [...KEY, 'cohorts'],
-    queryFn: () => realCohortsService.list({ pageSize: 100 }),
+    queryFn: () => cohortsService.list({ pageSize: 100 }),
   })
 }
 
@@ -30,12 +34,13 @@ export function useRealOverviewAnalytics() {
   return useQuery({
     queryKey: [...KEY, 'overview'],
     queryFn: async () => {
+      if (env.useMocks) return mockAnalyticsService.overview()
       const raw = await apiClient.get<RawOverview>(
         API_ENDPOINTS.analytics.overview
       )
       // Program-wide completion and at-risk counts aren't on the overview
       // endpoint, so derive them by aggregating each cohort's analytics.
-      const cohorts = await realCohortsService.list({ pageSize: 100 })
+      const cohorts = await cohortsService.list({ pageSize: 100 })
       const perCohort = await Promise.all(
         cohorts.data.map((c) =>
           apiClient.get<RawCohortAnalytics>(
@@ -66,6 +71,7 @@ export function useRealCohortAnalytics(
   return useQuery({
     queryKey: [...KEY, 'cohort', cohortId ?? ''],
     queryFn: async () => {
+      if (env.useMocks) return mockAnalyticsService.cohort(cohortId as string)
       const raw = await apiClient.get<RawCohortAnalytics>(
         API_ENDPOINTS.analytics.cohort(cohortId as string)
       )
