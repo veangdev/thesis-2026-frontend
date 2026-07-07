@@ -52,7 +52,8 @@ export function JourneyStarView({ initialStudentId }: JourneyStarViewProps) {
   const isStudent = user?.role === ROLES.SELF_ASSESSOR
 
   const students = useUsers(
-    !isStudent ? { role: ROLES.SELF_ASSESSOR, pageSize: 100 } : undefined
+    !isStudent ? { role: ROLES.SELF_ASSESSOR, pageSize: 100 } : undefined,
+    { enabled: !isStudent }
   )
   const [pickedStudentId, setPickedStudentId] = React.useState<
     string | undefined
