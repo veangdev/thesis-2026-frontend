@@ -127,10 +127,10 @@ export function LoginForm() {
         </form>
       </Form>
 
-      {env.useMocks && (
+      {!env.isProduction && (
         <div className="space-y-2">
           <p className="text-muted-foreground text-center text-xs">
-            Demo mode — tap an account to fill the form
+            Quick sign-in — tap a seeded demo account
           </p>
           <div className="flex justify-center gap-2">
             {DEMO_ACCOUNTS.map((account) => (
