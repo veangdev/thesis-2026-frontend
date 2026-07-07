@@ -16,7 +16,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { TabPanels } from '@/components/shared/tab-panels'
 import { ROLES } from '@/constants/roles'
 import { useAuthStore } from '@/features/auth'
 import {
@@ -178,48 +178,52 @@ export function CoachingView() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue="upcoming">
-            <TabsList>
-              <TabsTrigger value="upcoming">
-                Upcoming ({upcoming.length})
-              </TabsTrigger>
-              <TabsTrigger value="past">Past ({past.length})</TabsTrigger>
-            </TabsList>
-            <TabsContent value="upcoming" className="space-y-2">
-              {upcoming.length === 0 ? (
-                <EmptyState
-                  icon={CalendarDays}
-                  title="Nothing scheduled"
-                  description={
-                    isFacilitator
-                      ? 'Schedule a session to keep momentum going.'
-                      : 'Your mentor will schedule the next session.'
-                  }
-                />
-              ) : (
-                upcoming.map((session) => (
-                  <SessionRow
-                    key={session.id}
-                    session={session}
-                    onOpen={setOpenSession}
-                  />
-                ))
-              )}
-            </TabsContent>
-            <TabsContent value="past" className="space-y-2">
-              {past.length === 0 ? (
-                <EmptyState title="No past sessions yet" />
-              ) : (
-                past.map((session) => (
-                  <SessionRow
-                    key={session.id}
-                    session={session}
-                    onOpen={setOpenSession}
-                  />
-                ))
-              )}
-            </TabsContent>
-          </Tabs>
+          <TabPanels
+            tabs={[
+              {
+                value: 'upcoming',
+                label: `Upcoming (${upcoming.length})`,
+                contentClassName: 'space-y-2',
+                content:
+                  upcoming.length === 0 ? (
+                    <EmptyState
+                      icon={CalendarDays}
+                      title="Nothing scheduled"
+                      description={
+                        isFacilitator
+                          ? 'Schedule a session to keep momentum going.'
+                          : 'Your mentor will schedule the next session.'
+                      }
+                    />
+                  ) : (
+                    upcoming.map((session) => (
+                      <SessionRow
+                        key={session.id}
+                        session={session}
+                        onOpen={setOpenSession}
+                      />
+                    ))
+                  ),
+              },
+              {
+                value: 'past',
+                label: `Past (${past.length})`,
+                contentClassName: 'space-y-2',
+                content:
+                  past.length === 0 ? (
+                    <EmptyState title="No past sessions yet" />
+                  ) : (
+                    past.map((session) => (
+                      <SessionRow
+                        key={session.id}
+                        session={session}
+                        onOpen={setOpenSession}
+                      />
+                    ))
+                  ),
+              },
+            ]}
+          />
         </CardContent>
       </Card>
 
