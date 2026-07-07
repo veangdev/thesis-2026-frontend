@@ -34,16 +34,25 @@ import {
 } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
 import { ROUTES } from '@/constants/routes'
-import { useCohortAnalytics, useOverviewAnalytics } from '@/features/analytics'
-import { useCohorts } from '@/features/cohorts'
+import {
+  useRealCohortAnalytics,
+  useRealCohorts,
+  useRealOverviewAnalytics,
+} from '@/features/analytics'
 
 /** Program Coordinator home: KPIs, cohort heatmap, workload, activity. */
 export function CoordinatorDashboard() {
-  const overview = useOverviewAnalytics()
-  const cohorts = useCohorts()
+  // Real-API backed (see src/features/analytics/dashboard.hooks.ts).
+  const overview = useRealOverviewAnalytics()
+  const cohorts = useRealCohorts()
   const [cohortId, setCohortId] = React.useState<string | undefined>(undefined)
   const activeCohortId = cohortId ?? cohorts.data?.data[0]?.id
-  const cohortAnalytics = useCohortAnalytics(activeCohortId)
+  const activeCohortName =
+    cohorts.data?.data.find((c) => c.id === activeCohortId)?.name ?? ''
+  const cohortAnalytics = useRealCohortAnalytics(
+    activeCohortId,
+    activeCohortName
+  )
 
   if (overview.isError) {
     return (
@@ -180,15 +189,17 @@ export function CoordinatorDashboard() {
               <Skeleton className="h-56 w-full" />
             ) : (
               <>
-                <GrowthLine
-                  data={heat.trendline.map((point) => ({
-                    label: point.periodName.replace(/ —.*$/, ''),
-                    average: point.average,
-                  }))}
-                  series={[{ key: 'average', label: 'Cohort average' }]}
-                  scaleMax={heat.scoringScaleMax}
-                  height={220}
-                />
+                {heat.trendline.length > 0 && (
+                  <GrowthLine
+                    data={heat.trendline.map((point) => ({
+                      label: point.periodName.replace(/ —.*$/, ''),
+                      average: point.average,
+                    }))}
+                    series={[{ key: 'average', label: 'Cohort average' }]}
+                    scaleMax={heat.scoringScaleMax}
+                    height={220}
+                  />
+                )}
                 <div className="grid gap-2 sm:grid-cols-3">
                   {heat.weakestDimensions.map((dimension) => (
                     <div
@@ -247,66 +258,69 @@ export function CoordinatorDashboard() {
         </Card>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-2">
-        {/* Activity trend */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="font-heading text-base">
-              Submission activity
-            </CardTitle>
-            <CardDescription>
-              Self-assessments submitted per week
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {overview.isLoading ? (
-              <Skeleton className="h-48 w-full" />
-            ) : (
-              <GrowthLine
-                data={(overview.data?.activityTrend ?? []).map((point) => ({
-                  label: point.label,
-                  submissions: point.count,
-                }))}
-                series={[{ key: 'submissions', label: 'Submissions' }]}
-                height={192}
-              />
-            )}
-          </CardContent>
-        </Card>
+      {overview.data?.activityTrend?.length ||
+      overview.data?.activityFeed?.length ? (
+        <div className="grid gap-4 lg:grid-cols-2">
+          {/* Activity trend */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="font-heading text-base">
+                Submission activity
+              </CardTitle>
+              <CardDescription>
+                Self-assessments submitted per week
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {overview.isLoading ? (
+                <Skeleton className="h-48 w-full" />
+              ) : (
+                <GrowthLine
+                  data={(overview.data?.activityTrend ?? []).map((point) => ({
+                    label: point.label,
+                    submissions: point.count,
+                  }))}
+                  series={[{ key: 'submissions', label: 'Submissions' }]}
+                  height={192}
+                />
+              )}
+            </CardContent>
+          </Card>
 
-        {/* Activity feed */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="font-heading flex items-center gap-2 text-base">
-              <Activity className="size-4" /> Latest activity
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2.5">
-            {overview.isLoading ? (
-              <Skeleton className="h-40 w-full" />
-            ) : (
-              (overview.data?.activityFeed ?? []).slice(0, 6).map((item) => (
-                <div key={item.id} className="flex items-start gap-2 text-sm">
-                  <span className="bg-brand-emerald mt-1.5 size-1.5 shrink-0 rounded-full" />
-                  <div className="min-w-0">
-                    <p className="truncate">{item.message}</p>
-                    <p className="text-muted-foreground text-xs">
-                      {formatDistanceToNow(new Date(item.timestamp), {
-                        addSuffix: true,
-                      })}
-                    </p>
+          {/* Activity feed */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="font-heading flex items-center gap-2 text-base">
+                <Activity className="size-4" /> Latest activity
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2.5">
+              {overview.isLoading ? (
+                <Skeleton className="h-40 w-full" />
+              ) : (
+                (overview.data?.activityFeed ?? []).slice(0, 6).map((item) => (
+                  <div key={item.id} className="flex items-start gap-2 text-sm">
+                    <span className="bg-brand-emerald mt-1.5 size-1.5 shrink-0 rounded-full" />
+                    <div className="min-w-0">
+                      <p className="truncate">{item.message}</p>
+                      <p className="text-muted-foreground text-xs">
+                        {formatDistanceToNow(new Date(item.timestamp), {
+                          addSuffix: true,
+                        })}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))
-            )}
-            <Button variant="ghost" size="sm" className="w-full" asChild>
-              <Link href={ROUTES.assessments}>
-                Assessment overview <ArrowRight className="size-4" />
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
+                ))
+              )}
+              <Button variant="ghost" size="sm" className="w-full" asChild>
+                <Link href={ROUTES.assessments}>
+                  Assessment overview <ArrowRight className="size-4" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      ) : null}
     </div>
   )
 }
