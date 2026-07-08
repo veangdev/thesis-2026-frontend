@@ -1,8 +1,9 @@
 'use client'
 
 import Link from 'next/link'
+import { useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ArrowLeft, Loader2, MailCheck } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Loader2, MailCheck } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
@@ -24,10 +25,13 @@ const schema = z.object({
 
 export function ForgotPasswordForm() {
   const forgotPassword = useForgotPassword()
+  const [sentTo, setSentTo] = useState('')
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: { email: '' },
   })
+
+  const resetHref = `${ROUTES.resetPassword}?email=${encodeURIComponent(sentTo)}`
 
   if (forgotPassword.isSuccess) {
     return (
@@ -40,14 +44,24 @@ export function ForgotPasswordForm() {
             Check your inbox
           </h1>
           <p className="text-muted-foreground text-sm">
-            {forgotPassword.data.message}
+            If an account exists for{' '}
+            <span className="text-foreground font-medium">{sentTo}</span>, we’ve
+            emailed a 6-digit code. Enter it on the next screen to choose a new
+            password.
           </p>
         </div>
-        <Button variant="outline" asChild>
-          <Link href={ROUTES.login}>
-            <ArrowLeft className="size-4" /> Back to sign in
-          </Link>
-        </Button>
+        <div className="flex flex-col gap-2">
+          <Button asChild>
+            <Link href={resetHref}>
+              Enter code <ArrowRight className="size-4" />
+            </Link>
+          </Button>
+          <Button variant="ghost" asChild>
+            <Link href={ROUTES.login}>
+              <ArrowLeft className="size-4" /> Back to sign in
+            </Link>
+          </Button>
+        </div>
       </div>
     )
   }
@@ -59,15 +73,16 @@ export function ForgotPasswordForm() {
           Forgot your password?
         </h1>
         <p className="text-muted-foreground text-sm">
-          Enter your email and we&apos;ll send you a reset link.
+          Enter your email and we&apos;ll send you a 6-digit reset code.
         </p>
       </div>
 
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit((values) =>
+          onSubmit={form.handleSubmit((values) => {
+            setSentTo(values.email)
             forgotPassword.mutate(values.email)
-          )}
+          })}
           className="space-y-4"
           noValidate
         >
@@ -97,7 +112,7 @@ export function ForgotPasswordForm() {
             {forgotPassword.isPending && (
               <Loader2 className="size-4 animate-spin" />
             )}
-            Send reset link
+            Send reset code
           </Button>
         </form>
       </Form>
