@@ -38,6 +38,8 @@ export interface LoginResponse {
 }
 
 export interface ResetPasswordPayload {
-  token: string
+  email: string
+  /** 6-digit code emailed by /auth/forgot-password. */
+  otp: string
   password: string
 }
