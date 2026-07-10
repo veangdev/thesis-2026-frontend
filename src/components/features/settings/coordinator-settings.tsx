@@ -33,6 +33,10 @@ import { siteConfig } from '@/config/site'
 import type { AuditLog } from '@/features/audit'
 import { useAuditLogs } from '@/features/audit'
 import { useCohorts } from '@/features/cohorts'
+import {
+  useNotificationRules,
+  useUpdateNotificationRule,
+} from '@/features/settings'
 import { formatDate } from '@/lib/utils'
 import { CohortScaleSettings } from './cohort-scale-settings'
 import { DimensionsSettings } from './dimensions-settings'
@@ -43,21 +47,25 @@ const NOTIFICATION_RULES = [
     id: 'assessment-open',
     label: 'Cycle opened',
     description: 'Notify students when a new assessment period starts.',
+    defaultEnabled: true,
   },
   {
     id: 'submission',
     label: 'Self-assessment submitted',
     description: 'Notify the assigned mentor immediately.',
+    defaultEnabled: true,
   },
   {
     id: 'review-complete',
     label: 'Review completed',
     description: 'Notify the student when scores are agreed.',
+    defaultEnabled: true,
   },
   {
     id: 'weekly-digest',
     label: 'Weekly completion digest',
     description: 'Email coordinators a completion summary every Monday.',
+    defaultEnabled: false,
   },
 ]
 
@@ -67,12 +75,17 @@ export function CoordinatorSettings() {
   const [cohortId, setCohortId] = React.useState<string | undefined>()
   const activeCohortId = cohortId ?? cohorts.data?.data[0]?.id
 
-  const [rules, setRules] = React.useState<Record<string, boolean>>({
-    'assessment-open': true,
-    submission: true,
-    'review-complete': true,
-    'weekly-digest': false,
-  })
+  // Notification rules persist to the backend; unset keys fall back to the
+  // per-rule default above.
+  const notificationRules = useNotificationRules()
+  const updateRule = useUpdateNotificationRule()
+  const storedRules = React.useMemo(
+    () =>
+      Object.fromEntries(
+        (notificationRules.data ?? []).map((rule) => [rule.key, rule.enabled])
+      ),
+    [notificationRules.data]
+  )
 
   const [auditSearch, setAuditSearch] = React.useState('')
   const audit = useAuditLogs({ pageSize: 20 })
@@ -183,9 +196,10 @@ export function CoordinatorSettings() {
                 </div>
                 <Switch
                   id={`rule-${rule.id}`}
-                  checked={rules[rule.id] ?? false}
+                  checked={storedRules[rule.id] ?? rule.defaultEnabled}
+                  disabled={notificationRules.isLoading}
                   onCheckedChange={(checked) =>
-                    setRules((current) => ({ ...current, [rule.id]: checked }))
+                    updateRule.mutate({ key: rule.id, enabled: checked })
                   }
                 />
               </div>

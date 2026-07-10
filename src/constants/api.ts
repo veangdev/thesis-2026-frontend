@@ -70,4 +70,8 @@ export const API_ENDPOINTS = {
   auditLogs: {
     root: '/audit-logs',
   },
+  settings: {
+    notificationRules: '/settings/notification-rules',
+    notificationRule: (key: string) => `/settings/notification-rules/${key}`,
+  },
 } as const
