@@ -22,26 +22,35 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { ROLES } from '@/constants/roles'
 import { useAuthStore } from '@/features/auth'
 import {
   COACHING_SCOPE_LABELS,
   useCreateCoachingSession,
   type CoachingScope,
 } from '@/features/coaching'
-import { useFacilitatorStudents } from '@/features/users'
+import { useFacilitatorStudents, useUsers } from '@/features/users'
 
 interface NewSessionDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
 }
 
-/** Facilitator scheduling: title, scope, participants, date, duration. */
+/**
+ * Session scheduling: title, scope, participants, date, duration.
+ * Facilitators pick from their own roster; coordinators from all students.
+ */
 export function NewSessionDialog({
   open,
   onOpenChange,
 }: NewSessionDialogProps) {
   const user = useAuthStore((state) => state.user)
-  const roster = useFacilitatorStudents(user?.id)
+  const isCoordinator = user?.role === ROLES.PROGRAM_COORDINATOR
+  const roster = useFacilitatorStudents(isCoordinator ? undefined : user?.id)
+  const allStudents = useUsers(
+    { role: ROLES.SELF_ASSESSOR, pageSize: 100 },
+    { enabled: isCoordinator }
+  )
   const createSession = useCreateCoachingSession()
 
   const [title, setTitle] = React.useState('')
@@ -51,7 +60,9 @@ export function NewSessionDialog({
   const [time, setTime] = React.useState('09:00')
   const [duration, setDuration] = React.useState('45')
 
-  const students = roster.data ?? []
+  const students = isCoordinator
+    ? (allStudents.data?.data ?? [])
+    : (roster.data ?? [])
   // Class/batch sessions automatically include the whole roster.
   const wholeRoster = scope === 'class' || scope === 'batch'
   const effectiveParticipants = wholeRoster
@@ -100,7 +111,9 @@ export function NewSessionDialog({
         <DialogHeader>
           <DialogTitle>Schedule a coaching session</DialogTitle>
           <DialogDescription>
-            Pick a scope — class and batch sessions include your whole roster.
+            {isCoordinator
+              ? 'Pick a scope — class and batch sessions include every student.'
+              : 'Pick a scope — class and batch sessions include your whole roster.'}
           </DialogDescription>
         </DialogHeader>
 
@@ -206,7 +219,9 @@ export function NewSessionDialog({
           )}
           {wholeRoster && (
             <p className="text-muted-foreground text-sm">
-              Includes all {students.length} students on your roster.
+              {isCoordinator
+                ? `Includes all ${students.length} students in the program.`
+                : `Includes all ${students.length} students on your roster.`}
             </p>
           )}
         </div>
