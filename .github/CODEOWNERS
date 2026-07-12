@@ -1,0 +1,12 @@
+# CODEOWNERS — who must approve changes.
+#
+# Combined with the "Require review from Code Owners" branch-protection rule,
+# this means: every PR must be approved by a code owner listed here before it
+# can be merged. A same-level teammate's approval alone does NOT unblock a PR —
+# only a code owner's approval counts.
+#
+# Syntax: <path pattern>  <@owner ...>
+# Later lines override earlier ones for matching files.
+
+# The team lead owns everything by default.
+*   @veangdev

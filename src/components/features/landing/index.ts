@@ -1,0 +1,8 @@
+export { LandingHero } from './landing-hero'
+export { LandingFeatures } from './landing-features'
+export { LandingHowItWorks } from './landing-how-it-works'
+export { LandingDimensions } from './landing-dimensions'
+export { LandingGrowthTimeline } from './landing-growth-timeline'
+export { LandingStats } from './landing-stats'
+export { LandingTestimonials } from './landing-testimonials'
+export { LandingCta } from './landing-cta'

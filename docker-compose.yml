@@ -1,0 +1,31 @@
+services:
+  web:
+    build:
+      context: .
+      args:
+        # NEXT_PUBLIC_* are baked into the client bundle at build time.
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:3000/api/v1}
+        NEXT_PUBLIC_APP_NAME: ${NEXT_PUBLIC_APP_NAME:-PNC Journey Star}
+    image: pnc-journey-star-frontend
+    container_name: pnc-journey-star-frontend
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'wget',
+          '--quiet',
+          '--tries=1',
+          '--spider',
+          'http://localhost:3000/api/health',
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
