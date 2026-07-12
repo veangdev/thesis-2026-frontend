@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
@@ -15,11 +14,12 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { ROUTES } from '@/constants/routes'
 import { useResetPassword } from '@/features/auth/auth.hooks'
 
 const schema = z
   .object({
+    email: z.string().email('Enter a valid email address'),
+    otp: z.string().regex(/^\d{6}$/, 'Enter the 6-digit code'),
     password: z.string().min(8, 'Use at least 8 characters'),
     confirm: z.string(),
   })
@@ -28,28 +28,12 @@ const schema = z
     path: ['confirm'],
   })
 
-export function ResetPasswordForm({ token }: { token: string }) {
+export function ResetPasswordForm({ email }: { email: string }) {
   const resetPassword = useResetPassword()
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
-    defaultValues: { password: '', confirm: '' },
+    defaultValues: { email, otp: '', password: '', confirm: '' },
   })
-
-  if (!token) {
-    return (
-      <div className="space-y-4 text-center">
-        <h1 className="font-heading text-2xl font-semibold">
-          Invalid reset link
-        </h1>
-        <p className="text-muted-foreground text-sm">
-          This link is missing its token. Request a new one and try again.
-        </p>
-        <Button asChild>
-          <Link href={ROUTES.forgotPassword}>Request a new link</Link>
-        </Button>
-      </div>
-    )
-  }
 
   return (
     <div className="space-y-6">
@@ -58,18 +42,60 @@ export function ResetPasswordForm({ token }: { token: string }) {
           Choose a new password
         </h1>
         <p className="text-muted-foreground text-sm">
-          Make it strong — at least 8 characters.
+          Enter the 6-digit code we emailed you, then pick a new password.
         </p>
       </div>
 
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit((values) =>
-            resetPassword.mutate({ token, password: values.password })
+            resetPassword.mutate({
+              email: values.email,
+              otp: values.otp,
+              password: values.password,
+            })
           )}
           className="space-y-4"
           noValidate
         >
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input
+                    type="email"
+                    placeholder="you@pnc.edu"
+                    autoComplete="email"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="otp"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Reset code</FormLabel>
+                <FormControl>
+                  <Input
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    maxLength={6}
+                    placeholder="123456"
+                    className="tracking-[0.5em]"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="password"
