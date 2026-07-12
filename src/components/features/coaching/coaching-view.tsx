@@ -17,8 +17,9 @@ import {
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { TabPanels } from '@/components/shared/tab-panels'
-import { ROLES } from '@/constants/roles'
+import { PERMISSIONS, ROLES } from '@/constants/roles'
 import { useAuthStore } from '@/features/auth'
+import { roleHasPermission } from '@/lib/auth'
 import {
   COACHING_SCOPE_LABELS,
   useCoachingSessions,
@@ -48,7 +49,7 @@ function SessionRow({
       type="button"
       onClick={() => onOpen(session)}
       className={cn(
-        'hover:bg-accent/60 w-full rounded-lg border p-3 text-left',
+        'hover:bg-accent/60 w-full cursor-pointer rounded-lg border p-3 text-left',
         session.status === 'cancelled' && 'opacity-60'
       )}
     >
@@ -70,13 +71,16 @@ function SessionRow({
 
 /**
  * Coaching sessions (spec §6): month calendar + upcoming/past timeline,
- * detail dialog with action items and follow-ups; facilitators schedule new
+ * detail dialog with action items and follow-ups; staff with the
+ * coaching:manage permission (facilitators and coordinators) schedule new
  * sessions with a scope (individual/group/class/batch).
  */
 export function CoachingView() {
   const user = useAuthStore((state) => state.user)
   const isStudent = user?.role === ROLES.SELF_ASSESSOR
   const isFacilitator = user?.role === ROLES.FACILITATOR
+  const canManage =
+    !!user && roleHasPermission(user.role, PERMISSIONS.COACHING_MANAGE)
 
   const sessions = useCoachingSessions(
     user
@@ -118,7 +122,7 @@ export function CoachingView() {
 
   return (
     <div className="grid gap-4 lg:grid-cols-3">
-      <Card className="lg:col-span-1">
+      <Card className="min-h-200 lg:col-span-1">
         <CardHeader className="flex-row items-center justify-between space-y-0">
           <div>
             <CardTitle className="font-heading flex items-center gap-2 text-base">
@@ -126,12 +130,13 @@ export function CoachingView() {
             </CardTitle>
             <CardDescription>Days with sessions are marked.</CardDescription>
           </div>
-          {isFacilitator && (
+          {canManage && (
             <Button size="sm" onClick={() => setCreating(true)}>
               <Plus className="size-4" /> Schedule
             </Button>
           )}
         </CardHeader>
+
         <CardContent className="space-y-3">
           <Calendar
             mode="single"
@@ -168,7 +173,7 @@ export function CoachingView() {
         </CardContent>
       </Card>
 
-      <Card className="lg:col-span-2">
+      <Card className="h-200 overflow-y-auto lg:col-span-2">
         <CardHeader>
           <CardTitle className="font-heading text-base">Sessions</CardTitle>
           <CardDescription>
@@ -177,7 +182,8 @@ export function CoachingView() {
               : 'Timeline across your students.'}
           </CardDescription>
         </CardHeader>
-        <CardContent>
+
+        <CardContent className="h-full overflow-y-auto">
           <TabPanels
             tabs={[
               {
@@ -190,7 +196,7 @@ export function CoachingView() {
                       icon={CalendarDays}
                       title="Nothing scheduled"
                       description={
-                        isFacilitator
+                        canManage
                           ? 'Schedule a session to keep momentum going.'
                           : 'Your mentor will schedule the next session.'
                       }
@@ -232,7 +238,7 @@ export function CoachingView() {
         onOpenChange={(open) => !open && setOpenSession(null)}
         canEdit={!isStudent}
       />
-      {isFacilitator && (
+      {canManage && (
         <NewSessionDialog open={creating} onOpenChange={setCreating} />
       )}
     </div>
