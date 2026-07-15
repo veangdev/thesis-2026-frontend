@@ -168,7 +168,7 @@ export function StudentDashboard() {
                 data={radarData}
                 series={[
                   { key: 'self', label: 'Self' },
-                  { key: 'mentor', label: 'Mentor' },
+                  { key: 'mentor', label: 'Facilitator' },
                 ]}
                 scaleMax={data.scoringScaleMax}
                 height={280}
@@ -240,7 +240,7 @@ export function StudentDashboard() {
               <EmptyState
                 icon={Target}
                 title="No active goals"
-                description="Set a goal with your mentor to focus your next cycle."
+                description="Set a goal with your facilitator to focus your next cycle."
               />
             ) : (
               activeGoals.slice(0, 3).map((goal) => (
@@ -289,7 +289,7 @@ export function StudentDashboard() {
               <EmptyState
                 icon={Calendar}
                 title="No upcoming sessions"
-                description="Your mentor will schedule the next one soon."
+                description="Your facilitator will schedule the next one soon."
               />
             )}
           </CardContent>
@@ -300,7 +300,7 @@ export function StudentDashboard() {
           <CardHeader>
             <CardTitle className="font-heading flex items-center gap-2 text-base">
               <MessageSquareHeart className="text-brand-gold size-4" /> From
-              your mentor
+              your facilitator
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">

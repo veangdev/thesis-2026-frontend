@@ -94,12 +94,12 @@ export function UserProfileDrawer({
       }
     >
       <SelectTrigger className="w-full">
-        <SelectValue placeholder="Add a student…" />
+        <SelectValue placeholder="Add a self-assessor…" />
       </SelectTrigger>
       <SelectContent>
         {studentCandidates.length === 0 ? (
           <p className="text-muted-foreground px-2 py-1.5 text-sm">
-            No other students available
+            No other self-assessors available
           </p>
         ) : (
           studentCandidates.map((student) => (
@@ -161,7 +161,7 @@ export function UserProfileDrawer({
                 {current.role === ROLES.SELF_ASSESSOR && (
                   <div>
                     <dt className="text-muted-foreground text-xs font-medium">
-                      Mentor
+                      Facilitator
                     </dt>
                     <dd className="mt-1.5">
                       <Select
@@ -175,7 +175,7 @@ export function UserProfileDrawer({
                         }
                       >
                         <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Assign a mentor" />
+                          <SelectValue placeholder="Assign a facilitator" />
                         </SelectTrigger>
                         <SelectContent>
                           {mentorCandidates.map((mentor) => (
@@ -195,7 +195,7 @@ export function UserProfileDrawer({
                   <Separator />
                   <section className="space-y-3">
                     <h4 className="flex items-center gap-2 text-sm font-medium">
-                      <Users className="size-4" /> Students under{' '}
+                      <Users className="size-4" /> Self-assessors under{' '}
                       {current.name.split(' ')[0]}
                       <Badge variant="secondary">
                         {roster.data?.length ?? 0}
@@ -207,8 +207,8 @@ export function UserProfileDrawer({
                     ) : (roster.data ?? []).length === 0 ? (
                       <EmptyState
                         icon={UserPlus}
-                        title="No students yet"
-                        description={`Assign students so ${current.name} can review their assessments.`}
+                        title="No self-assessors yet"
+                        description={`Assign self-assessors so ${current.name} can review their assessments.`}
                         className="py-8"
                         action={<div className="w-60">{addStudentSelect}</div>}
                       />

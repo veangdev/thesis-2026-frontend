@@ -198,7 +198,7 @@ export function CoachingView() {
                       description={
                         canManage
                           ? 'Schedule a session to keep momentum going.'
-                          : 'Your mentor will schedule the next session.'
+                          : 'Your facilitator will schedule the next session.'
                       }
                     />
                   ) : (

@@ -191,7 +191,7 @@ export function GoalsView() {
             onValueChange={(value) => setPickedStudentId(value)}
           >
             <SelectTrigger size="sm" className="w-64">
-              <SelectValue placeholder="Pick a student…" />
+              <SelectValue placeholder="Pick a self-assessor…" />
             </SelectTrigger>
             <SelectContent>
               {(students.data?.data ?? []).map((candidate) => (
@@ -223,7 +223,7 @@ export function GoalsView() {
       ) : !studentId ? (
         <EmptyState
           icon={Target}
-          title="Pick a student"
+          title="Pick a self-assessor"
           description="Choose whose goals to review."
         />
       ) : rows.length === 0 ? (
@@ -233,7 +233,7 @@ export function GoalsView() {
           description={
             isStudent
               ? 'Set your first goal — small, specific, and tied to a dimension.'
-              : 'This student has no goals yet.'
+              : 'This self-assessor has no goals yet.'
           }
           action={
             isStudent ? (

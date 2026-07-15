@@ -57,7 +57,7 @@ export function CoordinatorReports() {
     const dimensionNames = data.dimensionAverages.map(
       (dimension) => dimension.dimensionName
     )
-    const header = ['Student', ...dimensionNames, 'Average'].join(',')
+    const header = ['Self-Assessor', ...dimensionNames, 'Average'].join(',')
     const lines = data.heatmap.map((row) => {
       const cells = data.dimensionAverages.map(
         (dimension) => row.scores[dimension.dimensionId] ?? ''
@@ -237,7 +237,7 @@ export function CoordinatorReports() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Student</TableHead>
+                    <TableHead>Self-Assessor</TableHead>
                     <TableHead className="text-right">Average</TableHead>
                     <TableHead className="text-right">Zone</TableHead>
                     <TableHead className="text-right">Trend</TableHead>
@@ -295,7 +295,7 @@ export function CoordinatorReports() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Facilitator</TableHead>
-                    <TableHead className="text-right">Students</TableHead>
+                    <TableHead className="text-right">Self-Assessors</TableHead>
                     <TableHead className="text-right">Pending</TableHead>
                   </TableRow>
                 </TableHeader>
