@@ -68,13 +68,16 @@ function toAssignment(raw: RawAssignment): Assignment {
 
 export const realUsersService: UsersService = {
   async list(params?: UserListParams): Promise<PaginatedResponse<User>> {
-    // Backend rejects facilitatorId as a query param.
+    // Backend rejects facilitatorId as a query param and caps pageSize at 100.
     const res = await apiClient.get<PaginatedResponse<RawUser>>(
       API_ENDPOINTS.users.root,
       {
         params: {
           page: params?.page,
-          pageSize: params?.pageSize,
+          pageSize:
+            params?.pageSize != null
+              ? Math.min(params.pageSize, 100)
+              : undefined,
           search: params?.search,
           role: params?.role,
           cohortId: params?.cohortId,
