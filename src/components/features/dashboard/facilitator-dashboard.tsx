@@ -276,7 +276,7 @@ export function FacilitatorDashboard() {
           <CardHeader className="flex-row items-center justify-between space-y-0">
             <div>
               <CardTitle className="font-heading text-base">
-                My students
+                My self-assessors
               </CardTitle>
               <CardDescription>Current cycle status</CardDescription>
             </div>

@@ -18,11 +18,11 @@ test.describe('Facilitator flow', () => {
   })
 
   test('dashboard shows roster, queue, and alerts', async ({ page }) => {
-    await expect(page.getByText(/assigned students/i)).toBeVisible()
+    await expect(page.getByText(/assigned self-assessors/i)).toBeVisible()
     await expect(page.getByText(/pending reviews/i)).toBeVisible()
     await expect(page.getByText('Ready for review')).toBeVisible()
     // Roster renders student cards.
-    await expect(page.getByText(/my students/i)).toBeVisible()
+    await expect(page.getByText(/my self-assessors/i)).toBeVisible()
   })
 
   test('reviews a submitted assessment through to completion', async ({
@@ -42,7 +42,7 @@ test.describe('Facilitator flow', () => {
       .click()
 
     // Side-by-side workspace: student column + mentor scoring.
-    await expect(page.getByText(/student self-score/i).first()).toBeVisible()
+    await expect(page.getByText(/self-score/i).first()).toBeVisible()
 
     // Score all 8 dimensions at 3/5 and agree at 3.
     for (let index = 0; index < 8; index += 1) {
@@ -64,7 +64,7 @@ test.describe('Facilitator flow', () => {
     await page.getByRole('button', { name: /complete cycle/i }).click()
     await expect(page.getByText(/cycle is complete/i)).toBeVisible()
     await expect(
-      page.getByText(/cycle completed — great mentoring/i)
+      page.getByText(/cycle completed — great facilitating/i)
     ).toBeVisible()
   })
 })

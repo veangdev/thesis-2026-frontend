@@ -373,7 +373,8 @@ export function MentorReviewWorkspace({
       {readOnly ? (
         <div className="flex items-center justify-between">
           <p className="text-brand-emerald flex items-center gap-2 text-sm font-medium">
-            <CheckCheck className="size-4" /> Cycle completed — great mentoring!
+            <CheckCheck className="size-4" /> Cycle completed — great
+            facilitating!
           </p>
           <Button variant="outline" asChild>
             <Link href={ROUTES.assessmentGap(assessment.id)}>

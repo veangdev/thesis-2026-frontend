@@ -225,11 +225,11 @@ export function CoordinatorDashboard() {
           </CardContent>
         </Card>
 
-        {/* Mentor workload */}
+        {/* Facilitator workload */}
         <Card>
           <CardHeader>
             <CardTitle className="font-heading text-base">
-              Mentor workload
+              Facilitator workload
             </CardTitle>
             <CardDescription>Self-assessors · pending reviews</CardDescription>
           </CardHeader>
