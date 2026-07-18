@@ -11,7 +11,4 @@ export * from './analytics.types'
 export type { AnalyticsService } from './analytics.contract'
 export { analyticsKeys } from './analytics.keys'
 export * from './analytics.hooks'
-<<<<<<< HEAD
-=======
 export * from './dashboard.hooks'
->>>>>>> origin/main

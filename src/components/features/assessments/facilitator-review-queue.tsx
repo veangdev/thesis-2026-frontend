@@ -7,11 +7,7 @@ import { ErrorState } from '@/components/shared/error-state'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-<<<<<<< HEAD
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-=======
 import { TabPanels } from '@/components/shared/tab-panels'
->>>>>>> origin/main
 import { ROUTES } from '@/constants/routes'
 import type { Assessment } from '@/features/assessments'
 import { useAssessments } from '@/features/assessments'
@@ -81,34 +77,6 @@ export function FacilitatorReviewQueue() {
   )
 
   return (
-<<<<<<< HEAD
-    <Tabs defaultValue="queue">
-      <TabsList>
-        <TabsTrigger value="queue">
-          Needs attention{queue.length > 0 ? ` (${queue.length})` : ''}
-        </TabsTrigger>
-        <TabsTrigger value="all">All assessments</TabsTrigger>
-      </TabsList>
-      <TabsContent value="queue" className="space-y-3">
-        {queue.length === 0 ? (
-          <EmptyState
-            icon={ClipboardCheck}
-            title="Nothing needs your attention"
-            description="Submitted self-assessments appear here for review."
-          />
-        ) : (
-          queue.map((assessment) => (
-            <AssessmentRow key={assessment.id} assessment={assessment} />
-          ))
-        )}
-      </TabsContent>
-      <TabsContent value="all" className="space-y-3">
-        {rows.map((assessment) => (
-          <AssessmentRow key={assessment.id} assessment={assessment} />
-        ))}
-      </TabsContent>
-    </Tabs>
-=======
     <TabPanels
       tabs={[
         {
@@ -138,6 +106,5 @@ export function FacilitatorReviewQueue() {
         },
       ]}
     />
->>>>>>> origin/main
   )
 }

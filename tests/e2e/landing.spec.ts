@@ -5,11 +5,7 @@ test.describe('Landing page', () => {
     await page.goto('/')
     await expect(
       page.getByRole('heading', {
-<<<<<<< HEAD
-        name: /track student growth from learning to employment/i,
-=======
         name: /track self-assessor growth from learning to employment/i,
->>>>>>> origin/main
       })
     ).toBeVisible()
   })

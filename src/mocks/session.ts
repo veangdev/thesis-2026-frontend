@@ -18,14 +18,6 @@ export function userIdFromRefreshToken(token: string): string | null {
     : null
 }
 
-<<<<<<< HEAD
-/** Resolve the signed-in mock user from the stored access token. */
-export function currentMockUser(): User | null {
-  const token = getAccessToken()
-  if (!token || !token.startsWith(TOKEN_PREFIX)) return null
-  const userId = token.slice(TOKEN_PREFIX.length)
-  return getDb().users.find((user) => user.id === userId) ?? null
-=======
 /** Find a seeded mock user by email (case-insensitive). */
 export function mockUserByEmail(email: string): User | null {
   const target = email.trim().toLowerCase()
@@ -71,5 +63,4 @@ export function currentMockUser(): User | null {
   }
   const email = emailFromJwt(token)
   return email ? mockUserByEmail(email) : null
->>>>>>> origin/main
 }

@@ -20,17 +20,6 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 
-<<<<<<< HEAD
-/** Accepted spellings for the two importable roles. Coordinators are
- * deliberately excluded — they're created one at a time from the form. */
-const ROLE_ALIASES: Record<string, Role> = {
-  student: ROLES.SELF_ASSESSOR,
-  'self-assessor': ROLES.SELF_ASSESSOR,
-  'self assessor': ROLES.SELF_ASSESSOR,
-  self_assessor: ROLES.SELF_ASSESSOR,
-  mentor: ROLES.FACILITATOR,
-  facilitator: ROLES.FACILITATOR,
-=======
 /** Accepted spellings for the two importable roles — the canonical values are
  * `facilitator` and `self-assessor`, with `mentor`/`student` still accepted as
  * aliases. Coordinators are deliberately excluded — they're created one at a
@@ -42,18 +31,12 @@ const ROLE_ALIASES: Record<string, Role> = {
   student: ROLES.SELF_ASSESSOR,
   facilitator: ROLES.FACILITATOR,
   mentor: ROLES.FACILITATOR,
->>>>>>> origin/main
 }
 
 const TEMPLATE_CSV = [
   'name,email,role,cohort',
-<<<<<<< HEAD
-  'Dara Kim,dara@pnc.edu,student,Cohort 2026',
-  'Sokha Chan,sokha@pnc.edu,mentor,',
-=======
   'Dara Kim,dara@pnc.edu,self-assessor,Batch 2026 — Product Design',
   'Sokha Chan,sokha@pnc.edu,facilitator,',
->>>>>>> origin/main
 ].join('\n')
 
 const EMAIL_PATTERN = /^\S+@\S+\.\S+$/
@@ -126,12 +109,8 @@ export function UserImportDialog() {
       seenEmails.add(row.email.toLowerCase())
 
       const role = ROLE_ALIASES[row.roleInput.toLowerCase()]
-<<<<<<< HEAD
-      if (!role) row.errors.push('Role must be "student" or "mentor"')
-=======
       if (!role)
         row.errors.push('Role must be "facilitator" or "self-assessor"')
->>>>>>> origin/main
 
       let cohortId: string | undefined
       if (row.cohortInput) {
@@ -182,17 +161,10 @@ export function UserImportDialog() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
-<<<<<<< HEAD
-          <DialogTitle>Import students & mentors</DialogTitle>
-          <DialogDescription>
-            Upload a CSV list (Excel can save as CSV). Columns: name, email,
-            role (student or mentor), cohort (optional — name or ID).
-=======
           <DialogTitle>Import users</DialogTitle>
           <DialogDescription>
             Upload a CSV list (Excel can save as CSV). Columns: name, email,
             role (facilitator or self-assessor), cohort (optional — name or ID).
->>>>>>> origin/main
           </DialogDescription>
         </DialogHeader>
 

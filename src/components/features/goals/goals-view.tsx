@@ -151,12 +151,8 @@ export function GoalsView() {
   const isStudent = user?.role === ROLES.SELF_ASSESSOR
 
   const students = useUsers(
-<<<<<<< HEAD
-    !isStudent ? { role: ROLES.SELF_ASSESSOR, pageSize: 100 } : undefined
-=======
     !isStudent ? { role: ROLES.SELF_ASSESSOR, pageSize: 100 } : undefined,
     { enabled: !isStudent }
->>>>>>> origin/main
   )
   const [pickedStudentId, setPickedStudentId] = React.useState<string>()
   const studentId = isStudent ? user?.id : pickedStudentId
@@ -195,11 +191,7 @@ export function GoalsView() {
             onValueChange={(value) => setPickedStudentId(value)}
           >
             <SelectTrigger size="sm" className="w-64">
-<<<<<<< HEAD
-              <SelectValue placeholder="Pick a student…" />
-=======
               <SelectValue placeholder="Pick a self-assessor…" />
->>>>>>> origin/main
             </SelectTrigger>
             <SelectContent>
               {(students.data?.data ?? []).map((candidate) => (
@@ -231,11 +223,7 @@ export function GoalsView() {
       ) : !studentId ? (
         <EmptyState
           icon={Target}
-<<<<<<< HEAD
-          title="Pick a student"
-=======
           title="Pick a self-assessor"
->>>>>>> origin/main
           description="Choose whose goals to review."
         />
       ) : rows.length === 0 ? (
@@ -245,11 +233,7 @@ export function GoalsView() {
           description={
             isStudent
               ? 'Set your first goal — small, specific, and tied to a dimension.'
-<<<<<<< HEAD
-              : 'This student has no goals yet.'
-=======
               : 'This self-assessor has no goals yet.'
->>>>>>> origin/main
           }
           action={
             isStudent ? (

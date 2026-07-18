@@ -9,11 +9,7 @@ import { ErrorState } from '@/components/shared/error-state'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-<<<<<<< HEAD
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-=======
 import { TabPanels } from '@/components/shared/tab-panels'
->>>>>>> origin/main
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import {
@@ -63,42 +59,21 @@ export function NotificationsCenter() {
   return (
     <div className="mx-auto max-w-2xl space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
-<<<<<<< HEAD
-        <Tabs
-=======
         <TabPanels
->>>>>>> origin/main
           value={category}
           onValueChange={(value) =>
             setCategory(value as NotificationCategory | 'all')
           }
-<<<<<<< HEAD
-        >
-          <TabsList>
-            <TabsTrigger value="all">All</TabsTrigger>
-            {(
-=======
           tabs={[
             { value: 'all', label: 'All' },
             ...(
->>>>>>> origin/main
               Object.entries(NOTIFICATION_CATEGORY_LABELS) as [
                 NotificationCategory,
                 string,
               ][]
-<<<<<<< HEAD
-            ).map(([value, label]) => (
-              <TabsTrigger key={value} value={value}>
-                {label}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
-=======
             ).map(([value, label]) => ({ value, label })),
           ]}
         />
->>>>>>> origin/main
 
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">

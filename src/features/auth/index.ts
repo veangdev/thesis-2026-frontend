@@ -1,10 +1,6 @@
 import { mockAuthService } from '@/mocks/services/auth.mock'
 import { pickService } from '@/services/service-factory'
 import { realAuthService } from './auth.service'
-<<<<<<< HEAD
-
-export const authService = pickService(realAuthService, mockAuthService)
-=======
 import type { AuthService } from './auth.contract'
 
 /**
@@ -17,7 +13,6 @@ export const authService: AuthService = pickService(
   realAuthService,
   mockAuthService
 )
->>>>>>> origin/main
 
 export { useAuthStore } from './auth.store'
 export { RequireAuth } from './require-auth'

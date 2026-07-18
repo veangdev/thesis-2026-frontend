@@ -1,15 +1,5 @@
 import { API_ENDPOINTS } from '@/constants/api'
 import { apiClient } from '@/services/api-client'
-<<<<<<< HEAD
-import type { AuditService } from './audit.contract'
-
-/** Real implementation backed by the REST API. */
-export const realAuditService: AuditService = {
-  list(params) {
-    return apiClient.get(API_ENDPOINTS.auditLogs.root, {
-      params: { ...params },
-    })
-=======
 import type { PaginatedResponse } from '@/types/common'
 import type { AuditService } from './audit.contract'
 import type { AuditListParams, AuditLog } from './audit.types'
@@ -53,6 +43,5 @@ export const realAuditService: AuditService = {
       { params: { page: params?.page, pageSize: params?.pageSize } }
     )
     return { data: res.data.map(toAuditLog), meta: res.meta }
->>>>>>> origin/main
   },
 }

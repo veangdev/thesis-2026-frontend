@@ -17,19 +17,11 @@ export function LandingHero() {
           {siteConfig.name}
         </Badge>
         <h1 className="mt-6 text-4xl font-bold tracking-tight text-balance sm:text-5xl">
-<<<<<<< HEAD
-          Track student growth from learning to employment
-        </h1>
-        <p className="text-muted-foreground mt-5 max-w-xl text-lg text-pretty">
-          A shared view of every learner’s journey across eight skill dimensions
-          — for students, mentors and managers alike.
-=======
           Track self-assessor growth from learning to employment
         </h1>
         <p className="text-muted-foreground mt-5 max-w-xl text-lg text-pretty">
           A shared view of every learner’s journey across eight skill dimensions
           — for self-assessors, facilitators and managers alike.
->>>>>>> origin/main
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <Button asChild size="lg">

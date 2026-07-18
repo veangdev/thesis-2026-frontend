@@ -226,11 +226,7 @@ export function MentorReviewWorkspace({
               {/* Left: student's self-assessment (read-only) */}
               <div className="space-y-2">
                 <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-<<<<<<< HEAD
-                  Student self-score
-=======
                   Self-score
->>>>>>> origin/main
                 </p>
                 <p className="font-mono text-2xl font-semibold tabular-nums">
                   {self ? `${self.score}/${scaleMax}` : '–'}
@@ -249,11 +245,7 @@ export function MentorReviewWorkspace({
                     Your score
                   </p>
                   <ScoreInput
-<<<<<<< HEAD
-                    label={`${dimension.name} mentor`}
-=======
                     label={`${dimension.name} facilitator`}
->>>>>>> origin/main
                     value={entry?.score ?? null}
                     scaleMax={scaleMax}
                     disabled={readOnly}
@@ -381,12 +373,8 @@ export function MentorReviewWorkspace({
       {readOnly ? (
         <div className="flex items-center justify-between">
           <p className="text-brand-emerald flex items-center gap-2 text-sm font-medium">
-<<<<<<< HEAD
-            <CheckCheck className="size-4" /> Cycle completed — great mentoring!
-=======
             <CheckCheck className="size-4" /> Cycle completed — great
             facilitating!
->>>>>>> origin/main
           </p>
           <Button variant="outline" asChild>
             <Link href={ROUTES.assessmentGap(assessment.id)}>

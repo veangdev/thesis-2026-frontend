@@ -16,16 +16,10 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-<<<<<<< HEAD
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { ROLES } from '@/constants/roles'
-import { useAuthStore } from '@/features/auth'
-=======
 import { TabPanels } from '@/components/shared/tab-panels'
 import { PERMISSIONS, ROLES } from '@/constants/roles'
 import { useAuthStore } from '@/features/auth'
 import { roleHasPermission } from '@/lib/auth'
->>>>>>> origin/main
 import {
   COACHING_SCOPE_LABELS,
   useCoachingSessions,
@@ -55,11 +49,7 @@ function SessionRow({
       type="button"
       onClick={() => onOpen(session)}
       className={cn(
-<<<<<<< HEAD
-        'hover:bg-accent/60 w-full rounded-lg border p-3 text-left',
-=======
         'hover:bg-accent/60 w-full cursor-pointer rounded-lg border p-3 text-left',
->>>>>>> origin/main
         session.status === 'cancelled' && 'opacity-60'
       )}
     >
@@ -81,23 +71,16 @@ function SessionRow({
 
 /**
  * Coaching sessions (spec §6): month calendar + upcoming/past timeline,
-<<<<<<< HEAD
- * detail dialog with action items and follow-ups; facilitators schedule new
-=======
  * detail dialog with action items and follow-ups; staff with the
  * coaching:manage permission (facilitators and coordinators) schedule new
->>>>>>> origin/main
  * sessions with a scope (individual/group/class/batch).
  */
 export function CoachingView() {
   const user = useAuthStore((state) => state.user)
   const isStudent = user?.role === ROLES.SELF_ASSESSOR
   const isFacilitator = user?.role === ROLES.FACILITATOR
-<<<<<<< HEAD
-=======
   const canManage =
     !!user && roleHasPermission(user.role, PERMISSIONS.COACHING_MANAGE)
->>>>>>> origin/main
 
   const sessions = useCoachingSessions(
     user
@@ -139,11 +122,7 @@ export function CoachingView() {
 
   return (
     <div className="grid gap-4 lg:grid-cols-3">
-<<<<<<< HEAD
-      <Card className="lg:col-span-1">
-=======
       <Card className="min-h-200 lg:col-span-1">
->>>>>>> origin/main
         <CardHeader className="flex-row items-center justify-between space-y-0">
           <div>
             <CardTitle className="font-heading flex items-center gap-2 text-base">
@@ -151,20 +130,13 @@ export function CoachingView() {
             </CardTitle>
             <CardDescription>Days with sessions are marked.</CardDescription>
           </div>
-<<<<<<< HEAD
-          {isFacilitator && (
-=======
           {canManage && (
->>>>>>> origin/main
             <Button size="sm" onClick={() => setCreating(true)}>
               <Plus className="size-4" /> Schedule
             </Button>
           )}
         </CardHeader>
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/main
         <CardContent className="space-y-3">
           <Calendar
             mode="single"
@@ -201,11 +173,7 @@ export function CoachingView() {
         </CardContent>
       </Card>
 
-<<<<<<< HEAD
-      <Card className="lg:col-span-2">
-=======
       <Card className="h-200 overflow-y-auto lg:col-span-2">
->>>>>>> origin/main
         <CardHeader>
           <CardTitle className="font-heading text-base">Sessions</CardTitle>
           <CardDescription>
@@ -214,51 +182,6 @@ export function CoachingView() {
               : 'Timeline across your students.'}
           </CardDescription>
         </CardHeader>
-<<<<<<< HEAD
-        <CardContent>
-          <Tabs defaultValue="upcoming">
-            <TabsList>
-              <TabsTrigger value="upcoming">
-                Upcoming ({upcoming.length})
-              </TabsTrigger>
-              <TabsTrigger value="past">Past ({past.length})</TabsTrigger>
-            </TabsList>
-            <TabsContent value="upcoming" className="space-y-2">
-              {upcoming.length === 0 ? (
-                <EmptyState
-                  icon={CalendarDays}
-                  title="Nothing scheduled"
-                  description={
-                    isFacilitator
-                      ? 'Schedule a session to keep momentum going.'
-                      : 'Your mentor will schedule the next session.'
-                  }
-                />
-              ) : (
-                upcoming.map((session) => (
-                  <SessionRow
-                    key={session.id}
-                    session={session}
-                    onOpen={setOpenSession}
-                  />
-                ))
-              )}
-            </TabsContent>
-            <TabsContent value="past" className="space-y-2">
-              {past.length === 0 ? (
-                <EmptyState title="No past sessions yet" />
-              ) : (
-                past.map((session) => (
-                  <SessionRow
-                    key={session.id}
-                    session={session}
-                    onOpen={setOpenSession}
-                  />
-                ))
-              )}
-            </TabsContent>
-          </Tabs>
-=======
 
         <CardContent className="h-full overflow-y-auto">
           <TabPanels
@@ -307,7 +230,6 @@ export function CoachingView() {
               },
             ]}
           />
->>>>>>> origin/main
         </CardContent>
       </Card>
 
@@ -316,11 +238,7 @@ export function CoachingView() {
         onOpenChange={(open) => !open && setOpenSession(null)}
         canEdit={!isStudent}
       />
-<<<<<<< HEAD
-      {isFacilitator && (
-=======
       {canManage && (
->>>>>>> origin/main
         <NewSessionDialog open={creating} onOpenChange={setCreating} />
       )}
     </div>

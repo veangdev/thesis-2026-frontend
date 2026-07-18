@@ -10,21 +10,6 @@ import type {
   UserPayload,
 } from './users.types'
 
-<<<<<<< HEAD
-/** Real implementation backed by the REST API. */
-export const realUsersService: UsersService = {
-  list(params?: UserListParams): Promise<PaginatedResponse<User>> {
-    return apiClient.get(API_ENDPOINTS.users.root, { params: { ...params } })
-  },
-  getById(id: string): Promise<User> {
-    return apiClient.get(API_ENDPOINTS.users.byId(id))
-  },
-  create(payload: UserPayload): Promise<User> {
-    return apiClient.post(API_ENDPOINTS.users.root, payload)
-  },
-  update(id: string, payload: Partial<UserPayload>): Promise<User> {
-    return apiClient.patch(API_ENDPOINTS.users.byId(id), payload)
-=======
 /**
  * Real implementation backed by the REST API. The backend user shape uses
  * `avatarUrl` (not `avatar`) and does not carry `cohortId`/`facilitatorId`;
@@ -126,28 +111,10 @@ export const realUsersService: UsersService = {
     return toUser(
       await apiClient.patch<RawUser>(API_ENDPOINTS.users.byId(id), body)
     )
->>>>>>> origin/main
   },
   remove(id: string): Promise<void> {
     return apiClient.delete(API_ENDPOINTS.users.byId(id))
   },
-<<<<<<< HEAD
-  bulkCreate(payloads: UserPayload[]): Promise<User[]> {
-    return apiClient.post(API_ENDPOINTS.users.bulk, { users: payloads })
-  },
-
-  facilitatorStudents(facilitatorId: string): Promise<User[]> {
-    return apiClient.get(API_ENDPOINTS.facilitators.students(facilitatorId))
-  },
-
-  listAssignments(cohortId?: string): Promise<Assignment[]> {
-    return apiClient.get(API_ENDPOINTS.assignments.root, {
-      params: { cohortId },
-    })
-  },
-  createAssignment(payload: AssignmentPayload): Promise<Assignment> {
-    return apiClient.post(API_ENDPOINTS.assignments.root, payload)
-=======
   async bulkCreate(payloads: UserPayload[]): Promise<User[]> {
     const users = await apiClient.post<RawUser[]>(API_ENDPOINTS.users.bulk, {
       users: payloads.map(toCreateDto),
@@ -179,7 +146,6 @@ export const realUsersService: UsersService = {
       }
     )
     return toAssignment(raw)
->>>>>>> origin/main
   },
   deleteAssignment(id: string): Promise<void> {
     return apiClient.delete(`${API_ENDPOINTS.assignments.root}/${id}`)

@@ -1,19 +1,12 @@
 'use client'
 
 import Link from 'next/link'
-<<<<<<< HEAD
-import { ArrowRight, Star } from 'lucide-react'
-import { UserAvatar } from '@/components/shared/user-avatar'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-=======
 import { ArrowRight, Star, UserPlus, Users, X } from 'lucide-react'
 import { EmptyState } from '@/components/shared/empty-state'
 import { UserAvatar } from '@/components/shared/user-avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
->>>>>>> origin/main
 import {
   Select,
   SelectContent,
@@ -32,9 +25,6 @@ import {
 import { ROLE_BADGE_CLASSES, ROLE_LABELS, ROLES } from '@/constants/roles'
 import { ROUTES } from '@/constants/routes'
 import { useCohorts } from '@/features/cohorts'
-<<<<<<< HEAD
-import { useCreateAssignment, useUsers, type User } from '@/features/users'
-=======
 import {
   useAssignments,
   useCreateAssignment,
@@ -44,7 +34,6 @@ import {
   useUsers,
   type User,
 } from '@/features/users'
->>>>>>> origin/main
 import { cn, formatDate } from '@/lib/utils'
 
 interface UserProfileDrawerProps {
@@ -52,24 +41,13 @@ interface UserProfileDrawerProps {
   onOpenChange: (open: boolean) => void
 }
 
-<<<<<<< HEAD
-/** Slide-over profile for the users table, with mentor assignment. */
-=======
 /** Slide-over profile for the users table. Students get a mentor picker;
  * facilitators/coordinators get their student roster with add/remove. */
->>>>>>> origin/main
 export function UserProfileDrawer({
   user,
   onOpenChange,
 }: UserProfileDrawerProps) {
   const cohorts = useCohorts()
-<<<<<<< HEAD
-  const facilitators = useUsers({ role: ROLES.FACILITATOR, pageSize: 50 })
-  const assign = useCreateAssignment()
-
-  const cohortName = (cohortId?: string) =>
-    cohorts.data?.data.find((cohort) => cohort.id === cohortId)?.name ?? '—'
-=======
   // Live copy: the table row snapshot goes stale after drawer-side mutations.
   const detail = useUser(user?.id)
   const current = detail.data ?? user
@@ -136,29 +114,15 @@ export function UserProfileDrawer({
       </SelectContent>
     </Select>
   )
->>>>>>> origin/main
 
   return (
     <Sheet open={!!user} onOpenChange={onOpenChange}>
       <SheetContent className="overflow-y-auto sm:max-w-md">
-<<<<<<< HEAD
-        {user && (
-=======
         {current && (
->>>>>>> origin/main
           <>
             <SheetHeader>
               <div className="flex items-center gap-3">
                 <UserAvatar
-<<<<<<< HEAD
-                  name={user.name}
-                  avatar={user.avatar}
-                  className="size-12"
-                />
-                <div>
-                  <SheetTitle className="font-heading">{user.name}</SheetTitle>
-                  <SheetDescription>{user.email}</SheetDescription>
-=======
                   name={current.name}
                   avatar={current.avatar}
                   className="size-12"
@@ -168,7 +132,6 @@ export function UserProfileDrawer({
                     {current.name}
                   </SheetTitle>
                   <SheetDescription>{current.email}</SheetDescription>
->>>>>>> origin/main
                 </div>
               </div>
             </SheetHeader>
@@ -177,21 +140,12 @@ export function UserProfileDrawer({
               <div className="flex flex-wrap items-center gap-2">
                 <Badge
                   variant="secondary"
-<<<<<<< HEAD
-                  className={cn(ROLE_BADGE_CLASSES[user.role])}
-                >
-                  {ROLE_LABELS[user.role]}
-                </Badge>
-                <span className="text-muted-foreground text-xs">
-                  Joined {formatDate(user.createdAt)}
-=======
                   className={cn(ROLE_BADGE_CLASSES[current.role])}
                 >
                   {ROLE_LABELS[current.role]}
                 </Badge>
                 <span className="text-muted-foreground text-xs">
                   Joined {formatDate(current.createdAt)}
->>>>>>> origin/main
                 </span>
               </div>
 
@@ -202,18 +156,6 @@ export function UserProfileDrawer({
                   <dt className="text-muted-foreground text-xs font-medium">
                     Cohort
                   </dt>
-<<<<<<< HEAD
-                  <dd className="mt-0.5">{cohortName(user.cohortId)}</dd>
-                </div>
-                {user.role === ROLES.SELF_ASSESSOR && (
-                  <div>
-                    <dt className="text-muted-foreground text-xs font-medium">
-                      Mentor
-                    </dt>
-                    <dd className="mt-1.5">
-                      <Select
-                        value={user.facilitatorId ?? ''}
-=======
                   <dd className="mt-0.5">{cohortName(current.cohortId)}</dd>
                 </div>
                 {current.role === ROLES.SELF_ASSESSOR && (
@@ -224,35 +166,21 @@ export function UserProfileDrawer({
                     <dd className="mt-1.5">
                       <Select
                         value={current.facilitatorId ?? ''}
->>>>>>> origin/main
                         disabled={assign.isPending}
                         onValueChange={(facilitatorId) =>
                           assign.mutate({
                             facilitatorId,
-<<<<<<< HEAD
-                            studentId: user.id,
-=======
                             studentId: current.id,
->>>>>>> origin/main
                           })
                         }
                       >
                         <SelectTrigger className="w-full">
-<<<<<<< HEAD
-                          <SelectValue placeholder="Assign a mentor" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {(facilitators.data?.data ?? []).map((mentor) => (
-                            <SelectItem key={mentor.id} value={mentor.id}>
-                              {mentor.name}
-=======
                           <SelectValue placeholder="Assign a facilitator" />
                         </SelectTrigger>
                         <SelectContent>
                           {mentorCandidates.map((mentor) => (
                             <SelectItem key={mentor.id} value={mentor.id}>
                               {mentor.name} · {ROLE_LABELS[mentor.role]}
->>>>>>> origin/main
                             </SelectItem>
                           ))}
                         </SelectContent>
@@ -262,13 +190,6 @@ export function UserProfileDrawer({
                 )}
               </dl>
 
-<<<<<<< HEAD
-              {user.role === ROLES.SELF_ASSESSOR && (
-                <>
-                  <Separator />
-                  <Button variant="outline" className="w-full" asChild>
-                    <Link href={`${ROUTES.journeyStar}?studentId=${user.id}`}>
-=======
               {isMentorRole && (
                 <>
                   <Separator />
@@ -339,7 +260,6 @@ export function UserProfileDrawer({
                     <Link
                       href={`${ROUTES.journeyStar}?studentId=${current.id}`}
                     >
->>>>>>> origin/main
                       <Star className="size-4" /> View Journey Star{' '}
                       <ArrowRight className="size-4" />
                     </Link>

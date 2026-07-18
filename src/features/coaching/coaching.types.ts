@@ -17,10 +17,7 @@ export interface ActionItem {
   title: string
   done: boolean
   assigneeId?: string
-<<<<<<< HEAD
-=======
   assigneeName?: string
->>>>>>> origin/main
   dueDate?: string
   createdAt: string
 }

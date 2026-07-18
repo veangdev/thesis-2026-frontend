@@ -5,48 +5,12 @@ import type { CohortsService } from './cohorts.contract'
 import type {
   Cohort,
   CohortListParams,
-<<<<<<< HEAD
-=======
   CohortStatus,
->>>>>>> origin/main
   CohortUpdatePayload,
   Dimension,
   DimensionPayload,
   Period,
   PeriodPayload,
-<<<<<<< HEAD
-} from './cohorts.types'
-
-/** Real implementation backed by the REST API. */
-export const realCohortsService: CohortsService = {
-  list(params?: CohortListParams): Promise<PaginatedResponse<Cohort>> {
-    return apiClient.get(API_ENDPOINTS.cohorts.root, { params: { ...params } })
-  },
-  getById(id: string): Promise<Cohort> {
-    return apiClient.get(API_ENDPOINTS.cohorts.byId(id))
-  },
-  create(payload): Promise<Cohort> {
-    return apiClient.post(API_ENDPOINTS.cohorts.root, payload)
-  },
-  update(id: string, payload: CohortUpdatePayload): Promise<Cohort> {
-    return apiClient.patch(API_ENDPOINTS.cohorts.byId(id), payload)
-  },
-
-  listDimensions(cohortId: string): Promise<Dimension[]> {
-    return apiClient.get(API_ENDPOINTS.cohorts.dimensions(cohortId))
-  },
-  createDimension(
-    cohortId: string,
-    payload: DimensionPayload
-  ): Promise<Dimension> {
-    return apiClient.post(API_ENDPOINTS.cohorts.dimensions(cohortId), payload)
-  },
-  updateDimension(
-    id: string,
-    payload: Partial<DimensionPayload>
-  ): Promise<Dimension> {
-    return apiClient.patch(API_ENDPOINTS.dimensions.byId(id), payload)
-=======
   PeriodStatus,
 } from './cohorts.types'
 
@@ -210,22 +174,11 @@ export const realCohortsService: CohortsService = {
         payload
       )
     )
->>>>>>> origin/main
   },
   deleteDimension(id: string): Promise<void> {
     return apiClient.delete(API_ENDPOINTS.dimensions.byId(id))
   },
 
-<<<<<<< HEAD
-  listPeriods(cohortId: string): Promise<Period[]> {
-    return apiClient.get(API_ENDPOINTS.cohorts.periods(cohortId))
-  },
-  createPeriod(cohortId: string, payload: PeriodPayload): Promise<Period> {
-    return apiClient.post(API_ENDPOINTS.cohorts.periods(cohortId), payload)
-  },
-  updatePeriod(id: string, payload: Partial<PeriodPayload>): Promise<Period> {
-    return apiClient.patch(API_ENDPOINTS.periods.byId(id), payload)
-=======
   async listPeriods(cohortId: string): Promise<Period[]> {
     const raw = await apiClient.get<RawPeriod[]>(
       API_ENDPOINTS.cohorts.periods(cohortId)
@@ -262,7 +215,6 @@ export const realCohortsService: CohortsService = {
     return toPeriod(
       await apiClient.patch<RawPeriod>(API_ENDPOINTS.periods.byId(id), body)
     )
->>>>>>> origin/main
   },
   deletePeriod(id: string): Promise<void> {
     return apiClient.delete(API_ENDPOINTS.periods.byId(id))

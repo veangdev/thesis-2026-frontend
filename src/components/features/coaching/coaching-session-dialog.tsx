@@ -14,8 +14,6 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-<<<<<<< HEAD
-=======
 import {
   Select,
   SelectContent,
@@ -23,7 +21,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
->>>>>>> origin/main
 import { Separator } from '@/components/ui/separator'
 import {
   COACHING_SCOPE_LABELS,
@@ -53,10 +50,7 @@ export function CoachingSessionDialog({
   const updateActionItem = useUpdateActionItem()
   const deleteActionItem = useDeleteActionItem()
   const [newAction, setNewAction] = React.useState('')
-<<<<<<< HEAD
-=======
   const [newAssignee, setNewAssignee] = React.useState('unassigned')
->>>>>>> origin/main
 
   // Keep the dialog in sync when a different session opens — render-time
   // derived-state adjustment (no effect needed).
@@ -161,14 +155,11 @@ export function CoachingSessionDialog({
                   className={`flex-1 text-sm ${item.done ? 'text-muted-foreground line-through' : ''}`}
                 >
                   {item.title}
-<<<<<<< HEAD
-=======
                   {item.assigneeName && (
                     <span className="text-muted-foreground ml-1 text-xs">
                       · {item.assigneeName}
                     </span>
                   )}
->>>>>>> origin/main
                   {item.dueDate && (
                     <span className="text-muted-foreground ml-1 text-xs">
                       · due {formatDate(item.dueDate)}
@@ -202,19 +193,12 @@ export function CoachingSessionDialog({
 
             {canEdit && (
               <form
-<<<<<<< HEAD
-                className="flex gap-2 pt-1"
-=======
                 className="flex flex-wrap gap-2 pt-1"
->>>>>>> origin/main
                 onSubmit={(event) => {
                   event.preventDefault()
                   const title = newAction.trim()
                   if (!title) return
                   createActionItem.mutate(
-<<<<<<< HEAD
-                    { sessionId: local.id, payload: { title } },
-=======
                     {
                       sessionId: local.id,
                       payload: {
@@ -225,7 +209,6 @@ export function CoachingSessionDialog({
                             : newAssignee,
                       },
                     },
->>>>>>> origin/main
                     {
                       onSuccess: (item) => {
                         setLocal((current) =>
@@ -240,20 +223,13 @@ export function CoachingSessionDialog({
                     }
                   )
                   setNewAction('')
-<<<<<<< HEAD
-=======
                   setNewAssignee('unassigned')
->>>>>>> origin/main
                 }}
               >
                 <Input
                   value={newAction}
                   onChange={(event) => setNewAction(event.target.value)}
                   placeholder="Add an action item…"
-<<<<<<< HEAD
-                  className="h-8"
-                />
-=======
                   className="h-8 min-w-40 flex-1"
                 />
                 <Select value={newAssignee} onValueChange={setNewAssignee}>
@@ -269,7 +245,6 @@ export function CoachingSessionDialog({
                     ))}
                   </SelectContent>
                 </Select>
->>>>>>> origin/main
                 <Button type="submit" size="sm" variant="outline">
                   <Plus className="size-4" /> Add
                 </Button>

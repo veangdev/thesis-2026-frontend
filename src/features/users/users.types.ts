@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 import type { StudentClass } from '@/constants/classes'
 import type { Gender } from '@/constants/genders'
-=======
->>>>>>> origin/main
 import type { Role } from '@/constants/roles'
 import type { User } from '@/types/auth'
 
@@ -15,13 +12,10 @@ export interface UserListParams {
   role?: Role
   cohortId?: string
   facilitatorId?: string
-<<<<<<< HEAD
   gender?: Gender
   studentClass?: StudentClass
   /** Sort the returned rows. Defaults to server/mock's natural order. */
   sortBy?: 'name' | 'gender' | 'class'
-=======
->>>>>>> origin/main
 }
 
 export interface UserPayload {
@@ -31,11 +25,8 @@ export interface UserPayload {
   cohortId?: string
   facilitatorId?: string
   avatar?: string
-<<<<<<< HEAD
   gender?: Gender
   studentClass?: StudentClass
-=======
->>>>>>> origin/main
 }
 
 /** Mentor ↔ student assignment (spec §3 `/assignments`). */

@@ -3,21 +3,13 @@ const TESTIMONIALS = [
     quote:
       'For the first time I could show my growth, not just talk about it. My star from Cycle 1 to Cycle 4 tells the whole story.',
     name: 'Sophea',
-<<<<<<< HEAD
-    role: 'Student, Web Development',
-=======
     role: 'Self-Assessor, Web Development',
->>>>>>> origin/main
   },
   {
     quote:
       'The gap analysis changed our coaching conversations. We stopped guessing and started talking about the same evidence.',
     name: 'Sokha',
-<<<<<<< HEAD
-    role: 'Facilitator & Mentor',
-=======
     role: 'Facilitator',
->>>>>>> origin/main
   },
   {
     quote:
@@ -36,12 +28,8 @@ export function LandingTestimonials() {
             Loved across the journey
           </h2>
           <p className="text-muted-foreground mt-3">
-<<<<<<< HEAD
-            Students, mentors, and coordinators — one shared picture of growth.
-=======
             Self-assessors, facilitators, and coordinators — one shared picture
             of growth.
->>>>>>> origin/main
           </p>
         </div>
         <div className="mt-12 grid gap-6 lg:grid-cols-3">

@@ -16,13 +16,10 @@ function applyFilters(users: User[], params?: UserListParams): User[] {
     rows = rows.filter((user) => user.cohortId === params.cohortId)
   if (params?.facilitatorId)
     rows = rows.filter((user) => user.facilitatorId === params.facilitatorId)
-<<<<<<< HEAD
   if (params?.gender)
     rows = rows.filter((user) => user.gender === params.gender)
   if (params?.studentClass)
     rows = rows.filter((user) => user.studentClass === params.studentClass)
-=======
->>>>>>> origin/main
   if (params?.search) {
     const query = params.search.toLowerCase()
     rows = rows.filter(
@@ -31,7 +28,6 @@ function applyFilters(users: User[], params?: UserListParams): User[] {
         user.email.toLowerCase().includes(query)
     )
   }
-<<<<<<< HEAD
   if (params?.sortBy === 'gender') {
     rows = [...rows].sort((a, b) =>
       (a.gender ?? '').localeCompare(b.gender ?? '') ||
@@ -45,8 +41,6 @@ function applyFilters(users: User[], params?: UserListParams): User[] {
   } else if (params?.sortBy === 'name') {
     rows = [...rows].sort((a, b) => a.name.localeCompare(b.name))
   }
-=======
->>>>>>> origin/main
   return rows
 }
 
@@ -74,11 +68,8 @@ export const mockUsersService: UsersService = {
       cohortId: payload.cohortId,
       facilitatorId: payload.facilitatorId,
       avatar: payload.avatar,
-<<<<<<< HEAD
       gender: payload.gender,
       studentClass: payload.studentClass,
-=======
->>>>>>> origin/main
       createdAt: new Date().toISOString(),
     }
     db.users.push(user)
