@@ -80,7 +80,11 @@ export function CoordinatorTeams() {
         })
         loads.set(lightest[0], lightest[1] + 1)
       }
+<<<<<<< HEAD
       toast.success('Students distributed across mentors')
+=======
+      toast.success('Self-assessors distributed across facilitators')
+>>>>>>> origin/main
     } catch {
       // Hook already toasts individual failures.
     } finally {
@@ -110,7 +114,11 @@ export function CoordinatorTeams() {
           <SelectTrigger
             size="sm"
             className="w-32 shrink-0"
+<<<<<<< HEAD
             aria-label={`Mentor for ${student.name}`}
+=======
+            aria-label={`Facilitator for ${student.name}`}
+>>>>>>> origin/main
           >
             <SelectValue placeholder="Assign…" />
           </SelectTrigger>
@@ -134,7 +142,11 @@ export function CoordinatorTeams() {
             <div>
               <CardTitle className="font-heading flex items-center gap-2 text-base">
                 <UserPlus className="text-brand-gold size-4" /> Unassigned
+<<<<<<< HEAD
                 students ({unassigned.length})
+=======
+                self-assessors ({unassigned.length})
+>>>>>>> origin/main
               </CardTitle>
               <CardDescription>
                 Pick a mentor per student, or distribute automatically.

@@ -30,7 +30,11 @@ type LoginValues = z.infer<typeof loginSchema>
 const DEMO_ACCOUNTS = [
   { label: 'Coordinator', email: 'coordinator@pnc.edu' },
   { label: 'Facilitator', email: 'facilitator@pnc.edu' },
+<<<<<<< HEAD
   { label: 'Student', email: 'student@pnc.edu' },
+=======
+  { label: 'Self-Assessor', email: 'student@pnc.edu' },
+>>>>>>> origin/main
 ]
 
 export function LoginForm() {
@@ -127,10 +131,17 @@ export function LoginForm() {
         </form>
       </Form>
 
+<<<<<<< HEAD
       {env.useMocks && (
         <div className="space-y-2">
           <p className="text-muted-foreground text-center text-xs">
             Demo mode — tap an account to fill the form
+=======
+      {!env.isProduction && (
+        <div className="space-y-2">
+          <p className="text-muted-foreground text-center text-xs">
+            Quick sign-in — tap a seeded demo account
+>>>>>>> origin/main
           </p>
           <div className="flex justify-center gap-2">
             {DEMO_ACCOUNTS.map((account) => (

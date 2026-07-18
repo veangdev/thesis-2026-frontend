@@ -50,17 +50,45 @@ export const realAuthService: AuthService = {
     return tokens
   },
 
+<<<<<<< HEAD
   forgotPassword(email: string): Promise<{ message: string }> {
     return apiClient.post(
+=======
+  // The backend answers 204 (no body) to both of these, so we synthesise the
+  // user-facing message here rather than reading it off the response.
+  async forgotPassword(email: string): Promise<{ message: string }> {
+    await apiClient.post(
+>>>>>>> origin/main
       API_ENDPOINTS.auth.forgotPassword,
       { email },
       { auth: false }
     )
+<<<<<<< HEAD
   },
 
   resetPassword(payload: ResetPasswordPayload): Promise<{ message: string }> {
     return apiClient.post(API_ENDPOINTS.auth.resetPassword, payload, {
       auth: false,
     })
+=======
+    return {
+      message: 'If that account exists, we’ve emailed a 6-digit reset code.',
+    }
+  },
+
+  async resetPassword(
+    payload: ResetPasswordPayload
+  ): Promise<{ message: string }> {
+    await apiClient.post(
+      API_ENDPOINTS.auth.resetPassword,
+      {
+        email: payload.email,
+        otp: payload.otp,
+        newPassword: payload.password,
+      },
+      { auth: false }
+    )
+    return { message: 'Password updated — you can sign in now.' }
+>>>>>>> origin/main
   },
 }

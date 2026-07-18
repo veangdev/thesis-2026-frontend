@@ -133,8 +133,13 @@ export function SelfAssessmentWizard({
               Assessment submitted! 🎉
             </h2>
             <p className="text-muted-foreground text-sm">
+<<<<<<< HEAD
               Great reflection work. Your mentor will review your scores and
               schedule a conversation — watch your notifications.
+=======
+              Great reflection work. Your facilitator will review your scores
+              and schedule a conversation — watch your notifications.
+>>>>>>> origin/main
             </p>
           </div>
           <div className="flex justify-center gap-3">
@@ -232,7 +237,11 @@ export function SelfAssessmentWizard({
             </CardTitle>
             <CardDescription>
               Check every score, add an overall reflection, then submit for your
+<<<<<<< HEAD
               mentor&apos;s review. You can&apos;t edit after submitting.
+=======
+              facilitator&apos;s review. You can&apos;t edit after submitting.
+>>>>>>> origin/main
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">

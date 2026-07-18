@@ -10,7 +10,11 @@ import {
 const FEATURES = [
   {
     icon: ClipboardCheck,
+<<<<<<< HEAD
     title: 'Self & mentor assessments',
+=======
+    title: 'Self & facilitator assessments',
+>>>>>>> origin/main
     description:
       'Structured evaluations each cycle, scored on a clear 1–10 scale across every dimension.',
   },
@@ -24,7 +28,11 @@ const FEATURES = [
     icon: TrendingUp,
     title: 'Gap analysis',
     description:
+<<<<<<< HEAD
       'Compare self vs. mentor perception to surface blind spots and celebrate real strengths.',
+=======
+      'Compare self vs. facilitator perception to surface blind spots and celebrate real strengths.',
+>>>>>>> origin/main
   },
   {
     icon: MessagesSquare,

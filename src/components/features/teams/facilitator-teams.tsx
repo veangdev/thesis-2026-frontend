@@ -54,8 +54,13 @@ export function FacilitatorTeams() {
     return (
       <EmptyState
         icon={Users}
+<<<<<<< HEAD
         title="No students assigned yet"
         description="Your coordinator assigns students from the Teams board."
+=======
+        title="No self-assessors assigned yet"
+        description="Your coordinator assigns self-assessors from the Teams board."
+>>>>>>> origin/main
       />
     )
   }
@@ -82,7 +87,11 @@ export function FacilitatorTeams() {
         <Table>
           <TableHeader>
             <TableRow>
+<<<<<<< HEAD
               <TableHead>Student</TableHead>
+=======
+              <TableHead>Self-Assessor</TableHead>
+>>>>>>> origin/main
               <TableHead>Cohort</TableHead>
               <TableHead className="text-right">Completed cycles</TableHead>
               <TableHead className="text-right">Journey Star</TableHead>

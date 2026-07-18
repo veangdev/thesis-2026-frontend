@@ -51,6 +51,10 @@ import {
 } from '@/features/users'
 import { useDebounce } from '@/hooks/use-debounce'
 import { cn } from '@/lib/utils'
+<<<<<<< HEAD
+=======
+import { UserImportDialog } from './user-import-dialog'
+>>>>>>> origin/main
 import { UserProfileDrawer } from './user-profile-drawer'
 
 const createUserSchema = z.object({
@@ -203,6 +207,10 @@ export function UserManagement() {
               <Trash2 className="size-4" /> Remove {selected.size}
             </Button>
           )}
+<<<<<<< HEAD
+=======
+          <UserImportDialog />
+>>>>>>> origin/main
           <Dialog open={createOpen} onOpenChange={setCreateOpen}>
             <DialogTrigger asChild>
               <Button size="sm">
@@ -213,7 +221,10 @@ export function UserManagement() {
               <DialogHeader>
                 <DialogTitle>Add a user</DialogTitle>
                 <DialogDescription>
+<<<<<<< HEAD
                   https://www.youtube.com/watch?v=yvG44_EVCz8&list=RDDC7LVgPxQ1I&index=3
+=======
+>>>>>>> origin/main
                   They&apos;ll receive an invitation to set their password.
                 </DialogDescription>
               </DialogHeader>

@@ -10,10 +10,23 @@ import type {
 } from './users.types'
 import { usersService } from './index'
 
+<<<<<<< HEAD
 export function useUsers(params?: UserListParams) {
   return useQuery({
     queryKey: userKeys.list(params),
     queryFn: () => usersService.list(params),
+=======
+export function useUsers(
+  params?: UserListParams,
+  options?: { enabled?: boolean }
+) {
+  return useQuery({
+    queryKey: userKeys.list(params),
+    queryFn: () => usersService.list(params),
+    // Listing users is staff-only on the backend; callers disable it for
+    // students to avoid a guaranteed 403.
+    enabled: options?.enabled ?? true,
+>>>>>>> origin/main
   })
 }
 

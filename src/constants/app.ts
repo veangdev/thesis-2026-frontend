@@ -5,7 +5,11 @@
 
 export const APP_NAME = 'PNC Journey Star'
 export const APP_DESCRIPTION =
+<<<<<<< HEAD
   'Student transformation tracking — from learning to employment.'
+=======
+  'Self-assessor transformation tracking — from learning to employment.'
+>>>>>>> origin/main
 export const APP_VERSION = '0.1.0'
 
 /** The eight soft-skill dimensions assessed each cycle. */

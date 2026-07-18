@@ -55,7 +55,11 @@ export function AssessmentSummary({
 
   const series: RadarSeries[] = [
     { key: 'self', label: 'Self' },
+<<<<<<< HEAD
     ...(hasMentor ? [{ key: 'mentor', label: 'Mentor' }] : []),
+=======
+    ...(hasMentor ? [{ key: 'mentor', label: 'Facilitator' }] : []),
+>>>>>>> origin/main
     ...(hasAgreed ? [{ key: 'agreed', label: 'Agreed' }] : []),
   ]
 
@@ -100,7 +104,11 @@ export function AssessmentSummary({
                 <TableHead>Dimension</TableHead>
                 <TableHead className="text-right">Self</TableHead>
                 {hasMentor && (
+<<<<<<< HEAD
                   <TableHead className="text-right">Mentor</TableHead>
+=======
+                  <TableHead className="text-right">Facilitator</TableHead>
+>>>>>>> origin/main
                 )}
                 {hasAgreed && (
                   <TableHead className="text-right">Agreed</TableHead>
@@ -154,7 +162,11 @@ export function AssessmentSummary({
           {assessment.overallFeedback && (
             <div className="bg-muted/50 mt-4 rounded-xl p-3 text-sm">
               <p className="text-muted-foreground mb-1 text-xs font-medium">
+<<<<<<< HEAD
                 Mentor feedback
+=======
+                Facilitator feedback
+>>>>>>> origin/main
               </p>
               {assessment.overallFeedback}
             </div>

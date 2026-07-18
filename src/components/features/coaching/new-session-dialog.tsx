@@ -22,26 +22,50 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+<<<<<<< HEAD
+=======
+import { ROLES } from '@/constants/roles'
+>>>>>>> origin/main
 import { useAuthStore } from '@/features/auth'
 import {
   COACHING_SCOPE_LABELS,
   useCreateCoachingSession,
   type CoachingScope,
 } from '@/features/coaching'
+<<<<<<< HEAD
 import { useFacilitatorStudents } from '@/features/users'
+=======
+import { useFacilitatorStudents, useUsers } from '@/features/users'
+>>>>>>> origin/main
 
 interface NewSessionDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
 }
 
+<<<<<<< HEAD
 /** Facilitator scheduling: title, scope, participants, date, duration. */
+=======
+/**
+ * Session scheduling: title, scope, participants, date, duration.
+ * Facilitators pick from their own roster; coordinators from all students.
+ */
+>>>>>>> origin/main
 export function NewSessionDialog({
   open,
   onOpenChange,
 }: NewSessionDialogProps) {
   const user = useAuthStore((state) => state.user)
+<<<<<<< HEAD
   const roster = useFacilitatorStudents(user?.id)
+=======
+  const isCoordinator = user?.role === ROLES.PROGRAM_COORDINATOR
+  const roster = useFacilitatorStudents(isCoordinator ? undefined : user?.id)
+  const allStudents = useUsers(
+    { role: ROLES.SELF_ASSESSOR, pageSize: 100 },
+    { enabled: isCoordinator }
+  )
+>>>>>>> origin/main
   const createSession = useCreateCoachingSession()
 
   const [title, setTitle] = React.useState('')
@@ -50,8 +74,16 @@ export function NewSessionDialog({
   const [date, setDate] = React.useState<Date | undefined>()
   const [time, setTime] = React.useState('09:00')
   const [duration, setDuration] = React.useState('45')
+<<<<<<< HEAD
 
   const students = roster.data ?? []
+=======
+  const [followUp, setFollowUp] = React.useState<Date | undefined>()
+
+  const students = isCoordinator
+    ? (allStudents.data?.data ?? [])
+    : (roster.data ?? [])
+>>>>>>> origin/main
   // Class/batch sessions automatically include the whole roster.
   const wholeRoster = scope === 'class' || scope === 'batch'
   const effectiveParticipants = wholeRoster
@@ -82,6 +114,10 @@ export function NewSessionDialog({
         participantIds: effectiveParticipants,
         scheduledAt: scheduledAt.toISOString(),
         durationMinutes: Number(duration),
+<<<<<<< HEAD
+=======
+        followUpAt: followUp ? followUp.toISOString() : undefined,
+>>>>>>> origin/main
       },
       {
         onSuccess: () => {
@@ -89,6 +125,10 @@ export function NewSessionDialog({
           setTitle('')
           setParticipantIds([])
           setDate(undefined)
+<<<<<<< HEAD
+=======
+          setFollowUp(undefined)
+>>>>>>> origin/main
         },
       }
     )
@@ -100,7 +140,13 @@ export function NewSessionDialog({
         <DialogHeader>
           <DialogTitle>Schedule a coaching session</DialogTitle>
           <DialogDescription>
+<<<<<<< HEAD
             Pick a scope — class and batch sessions include your whole roster.
+=======
+            {isCoordinator
+              ? 'Pick a scope — class and batch sessions include every student.'
+              : 'Pick a scope — class and batch sessions include your whole roster.'}
+>>>>>>> origin/main
           </DialogDescription>
         </DialogHeader>
 
@@ -175,6 +221,19 @@ export function NewSessionDialog({
             </div>
           </div>
 
+<<<<<<< HEAD
+=======
+          <div className="space-y-1.5">
+            <Label>
+              Follow-up date{' '}
+              <span className="text-muted-foreground font-normal">
+                (optional)
+              </span>
+            </Label>
+            <DatePicker value={followUp} onChange={setFollowUp} />
+          </div>
+
+>>>>>>> origin/main
           {!wholeRoster && (
             <div className="space-y-2">
               <Label>
@@ -206,7 +265,13 @@ export function NewSessionDialog({
           )}
           {wholeRoster && (
             <p className="text-muted-foreground text-sm">
+<<<<<<< HEAD
               Includes all {students.length} students on your roster.
+=======
+              {isCoordinator
+                ? `Includes all ${students.length} students in the program.`
+                : `Includes all ${students.length} students on your roster.`}
+>>>>>>> origin/main
             </p>
           )}
         </div>

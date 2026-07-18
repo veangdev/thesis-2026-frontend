@@ -9,4 +9,8 @@ export { ModeToggle } from './mode-toggle'
 export { PageHeader } from './page-header'
 export { PageSkeleton } from './page-skeleton'
 export { PaginationControl } from './pagination-control'
+<<<<<<< HEAD
+=======
+export { TabPanels, type TabPanel } from './tab-panels'
+>>>>>>> origin/main
 export { ThemeProvider } from './theme-provider'

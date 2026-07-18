@@ -74,7 +74,12 @@ export function PeriodsSettings({ cohortId }: { cohortId: string }) {
             <DialogHeader>
               <DialogTitle>Create an assessment period</DialogTitle>
               <DialogDescription>
+<<<<<<< HEAD
                 Students self-assess and mentors review within this window.
+=======
+                Self-assessors self-assess and facilitators review within this
+                window.
+>>>>>>> origin/main
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4">

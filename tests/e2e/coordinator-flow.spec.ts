@@ -17,6 +17,7 @@ test.describe('Coordinator flow', () => {
     await expect(page).toHaveURL(/\/dashboard/)
   })
 
+<<<<<<< HEAD
   test('dashboard shows KPIs, heatmap, and mentor workload', async ({
     page,
   }) => {
@@ -24,13 +25,28 @@ test.describe('Coordinator flow', () => {
     await expect(page.getByText(/cycle completion/i)).toBeVisible()
     await expect(page.getByText(/cohort heatmap/i)).toBeVisible()
     await expect(page.getByText(/mentor workload/i)).toBeVisible()
+=======
+  test('dashboard shows KPIs, heatmap, and facilitator workload', async ({
+    page,
+  }) => {
+    await expect(
+      page.getByText('Self-Assessors', { exact: true })
+    ).toBeVisible()
+    await expect(page.getByText(/cycle completion/i)).toBeVisible()
+    await expect(page.getByText(/cohort heatmap/i)).toBeVisible()
+    await expect(page.getByText(/facilitator workload/i)).toBeVisible()
+>>>>>>> origin/main
     // Heatmap rows render student names once analytics load.
     await expect(page.getByText('Sophea Lim').first()).toBeVisible({
       timeout: 10_000,
     })
   })
 
+<<<<<<< HEAD
   test('user management: search, drawer, and mentor assignment', async ({
+=======
+  test('user management: search, drawer, and facilitator assignment', async ({
+>>>>>>> origin/main
     page,
   }) => {
     await page
@@ -47,7 +63,11 @@ test.describe('Coordinator flow', () => {
     await expect(
       page.getByRole('heading', { name: 'Sophea Lim' })
     ).toBeVisible()
+<<<<<<< HEAD
     await expect(page.getByText(/mentor/i).first()).toBeVisible()
+=======
+    await expect(page.getByText(/facilitator/i).first()).toBeVisible()
+>>>>>>> origin/main
   })
 
   test('flipping a cohort scale 5 → 10 rescales scoring UIs (spec §7)', async ({
@@ -59,8 +79,15 @@ test.describe('Coordinator flow', () => {
       .getByRole('complementary')
       .getByRole('link', { name: 'Assessments' })
       .click()
+<<<<<<< HEAD
     await page.getByRole('combobox', { name: 'Filter by period' }).click()
     await page.getByRole('option', { name: 'Cycle 1 — Foundation' }).click()
+=======
+    await page
+      .getByRole('button', { name: /^open$/i })
+      .first()
+      .click()
+>>>>>>> origin/main
     await page
       .getByRole('link', { name: /^view$/i })
       .first()
@@ -90,8 +117,15 @@ test.describe('Coordinator flow', () => {
       .getByRole('complementary')
       .getByRole('link', { name: 'Assessments' })
       .click()
+<<<<<<< HEAD
     await page.getByRole('combobox', { name: 'Filter by period' }).click()
     await page.getByRole('option', { name: 'Cycle 1 — Foundation' }).click()
+=======
+    await page
+      .getByRole('button', { name: /^open$/i })
+      .first()
+      .click()
+>>>>>>> origin/main
     await page
       .getByRole('link', { name: /^view$/i })
       .first()

@@ -142,7 +142,11 @@ export function seedNotifications({
   push(
     coordinator.id,
     'coaching',
+<<<<<<< HEAD
     'Mentor workload imbalance',
+=======
+    'Facilitator workload imbalance',
+>>>>>>> origin/main
     'One facilitator has 8 pending reviews while others have none. Consider rebalancing.',
     true,
     ROUTES.teams,

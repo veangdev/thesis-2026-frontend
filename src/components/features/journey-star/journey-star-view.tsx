@@ -52,7 +52,12 @@ export function JourneyStarView({ initialStudentId }: JourneyStarViewProps) {
   const isStudent = user?.role === ROLES.SELF_ASSESSOR
 
   const students = useUsers(
+<<<<<<< HEAD
     !isStudent ? { role: ROLES.SELF_ASSESSOR, pageSize: 100 } : undefined
+=======
+    !isStudent ? { role: ROLES.SELF_ASSESSOR, pageSize: 100 } : undefined,
+    { enabled: !isStudent }
+>>>>>>> origin/main
   )
   const [pickedStudentId, setPickedStudentId] = React.useState<
     string | undefined
@@ -69,12 +74,20 @@ export function JourneyStarView({ initialStudentId }: JourneyStarViewProps) {
       <div className="mx-auto max-w-md space-y-4 pt-12 text-center">
         <EmptyState
           icon={Star}
+<<<<<<< HEAD
           title="Pick a student"
+=======
+          title="Pick a self-assessor"
+>>>>>>> origin/main
           description="Choose whose Journey Star to explore."
         />
         <Select onValueChange={(value) => setPickedStudentId(value)}>
           <SelectTrigger className="mx-auto w-72">
+<<<<<<< HEAD
             <SelectValue placeholder="Select a student…" />
+=======
+            <SelectValue placeholder="Select a self-assessor…" />
+>>>>>>> origin/main
           </SelectTrigger>
           <SelectContent>
             {(students.data?.data ?? []).map((student) => (
@@ -143,7 +156,11 @@ export function JourneyStarView({ initialStudentId }: JourneyStarViewProps) {
   const series: RadarSeries[] = showMentor
     ? [
         { key: 'self', label: 'Self' },
+<<<<<<< HEAD
         { key: 'mentor', label: 'Mentor' },
+=======
+        { key: 'mentor', label: 'Facilitator' },
+>>>>>>> origin/main
       ]
     : [{ key: 'current', label: latest.periodName.replace(/ —.*$/, '') }]
   for (const overlay of overlays) {
@@ -192,7 +209,11 @@ export function JourneyStarView({ initialStudentId }: JourneyStarViewProps) {
               onCheckedChange={setShowMentor}
             />
             <Label htmlFor="mentor-toggle" className="text-sm">
+<<<<<<< HEAD
               Self vs mentor
+=======
+              Self vs facilitator
+>>>>>>> origin/main
             </Label>
           </div>
         </div>
