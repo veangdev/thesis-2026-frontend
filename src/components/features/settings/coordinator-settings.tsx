@@ -43,17 +43,17 @@ const NOTIFICATION_RULES = [
   {
     id: 'assessment-open',
     label: 'Cycle opened',
-    description: 'Notify students when a new assessment period starts.',
+    description: 'Notify self-assessors when a new assessment period starts.',
   },
   {
     id: 'submission',
     label: 'Self-assessment submitted',
-    description: 'Notify the assigned mentor immediately.',
+    description: 'Notify the assigned facilitator immediately.',
   },
   {
     id: 'review-complete',
     label: 'Review completed',
-    description: 'Notify the student when scores are agreed.',
+    description: 'Notify the self-assessor when scores are agreed.',
   },
   {
     id: 'weekly-digest',

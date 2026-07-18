@@ -30,7 +30,7 @@ type LoginValues = z.infer<typeof loginSchema>
 const DEMO_ACCOUNTS = [
   { label: 'Coordinator', email: 'coordinator@pnc.edu' },
   { label: 'Facilitator', email: 'facilitator@pnc.edu' },
-  { label: 'Student', email: 'student@pnc.edu' },
+  { label: 'Self-Assessor', email: 'student@pnc.edu' },
 ]
 
 export function LoginForm() {

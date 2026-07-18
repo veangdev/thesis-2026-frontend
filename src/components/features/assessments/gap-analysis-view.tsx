@@ -20,7 +20,7 @@ import { cn } from '@/lib/utils'
 
 /**
  * Gap analysis (spec §6): per-dimension self-vs-mentor comparison with
- * severity buckets and the mentor's discussion note where one exists.
+ * severity buckets and the facilitator's discussion note where one exists.
  */
 export function GapAnalysisView({ assessmentId }: { assessmentId: string }) {
   const gap = useGapAnalysis(assessmentId)
@@ -43,7 +43,7 @@ export function GapAnalysisView({ assessmentId }: { assessmentId: string }) {
       <EmptyState
         icon={GitCompareArrows}
         title="No gap data yet"
-        description="Gap analysis unlocks once both self and mentor scores exist."
+        description="Gap analysis unlocks once both self and facilitator scores exist."
         action={
           <Button variant="outline" asChild>
             <Link href={ROUTES.assessmentDetail(assessmentId)}>
@@ -118,7 +118,7 @@ export function GapAnalysisView({ assessmentId }: { assessmentId: string }) {
                         color: SERIES_COLORS.self,
                       },
                       {
-                        label: 'Mentor',
+                        label: 'Facilitator',
                         value: item.mentor,
                         color: SERIES_COLORS.mentor,
                       },

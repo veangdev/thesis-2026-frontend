@@ -73,7 +73,12 @@ test.describe('Shared screens', () => {
     // Batch scope auto-includes the roster, so no participant picking needed.
     await page.getByRole('combobox').filter({ hasText: 'Individual' }).click()
     await page.getByRole('option', { name: 'Batch' }).click()
-    await page.getByRole('button', { name: /pick a date/i }).click()
+    // The schedule dialog has two date pickers (session date + optional
+    // follow-up); pick the first (the session date).
+    await page
+      .getByRole('button', { name: /pick a date/i })
+      .first()
+      .click()
     await page
       .getByRole('dialog')
       .getByText('15', { exact: true })

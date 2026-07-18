@@ -147,13 +147,15 @@ export function FacilitatorReports() {
           <CardTitle className="font-heading text-base">
             Student standings
           </CardTitle>
-          <CardDescription>Latest completed cycle per student</CardDescription>
+          <CardDescription>
+            Latest completed cycle per self-assessor
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Student</TableHead>
+                <TableHead>Self-Assessor</TableHead>
                 <TableHead>Latest cycle</TableHead>
                 <TableHead className="text-right">Average</TableHead>
                 <TableHead className="text-right">Zone</TableHead>

@@ -59,6 +59,7 @@ export function NewSessionDialog({
   const [date, setDate] = React.useState<Date | undefined>()
   const [time, setTime] = React.useState('09:00')
   const [duration, setDuration] = React.useState('45')
+  const [followUp, setFollowUp] = React.useState<Date | undefined>()
 
   const students = isCoordinator
     ? (allStudents.data?.data ?? [])
@@ -93,6 +94,7 @@ export function NewSessionDialog({
         participantIds: effectiveParticipants,
         scheduledAt: scheduledAt.toISOString(),
         durationMinutes: Number(duration),
+        followUpAt: followUp ? followUp.toISOString() : undefined,
       },
       {
         onSuccess: () => {
@@ -100,6 +102,7 @@ export function NewSessionDialog({
           setTitle('')
           setParticipantIds([])
           setDate(undefined)
+          setFollowUp(undefined)
         },
       }
     )
@@ -186,6 +189,16 @@ export function NewSessionDialog({
                 onChange={(event) => setTime(event.target.value)}
               />
             </div>
+          </div>
+
+          <div className="space-y-1.5">
+            <Label>
+              Follow-up date{' '}
+              <span className="text-muted-foreground font-normal">
+                (optional)
+              </span>
+            </Label>
+            <DatePicker value={followUp} onChange={setFollowUp} />
           </div>
 
           {!wholeRoster && (

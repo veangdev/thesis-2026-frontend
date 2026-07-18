@@ -65,7 +65,11 @@ export function CoordinatorDashboard() {
 
   const kpis = overview.data?.kpis
   const kpiCards = [
-    { label: 'Students', value: kpis?.totalStudents, icon: GraduationCap },
+    {
+      label: 'Self-Assessors',
+      value: kpis?.totalStudents,
+      icon: GraduationCap,
+    },
     { label: 'Facilitators', value: kpis?.totalFacilitators, icon: Users },
     { label: 'Active cohorts', value: kpis?.activeCohorts, icon: Layers },
     {
@@ -109,7 +113,7 @@ export function CoordinatorDashboard() {
         </Button>
         <Button size="sm" variant="outline" asChild>
           <Link href={ROUTES.teams}>
-            <Users className="size-4" /> Assign mentors
+            <Users className="size-4" /> Assign facilitators
           </Link>
         </Button>
         <Button size="sm" variant="outline" asChild>
@@ -221,13 +225,13 @@ export function CoordinatorDashboard() {
           </CardContent>
         </Card>
 
-        {/* Mentor workload */}
+        {/* Facilitator workload */}
         <Card>
           <CardHeader>
             <CardTitle className="font-heading text-base">
-              Mentor workload
+              Facilitator workload
             </CardTitle>
-            <CardDescription>Students · pending reviews</CardDescription>
+            <CardDescription>Self-assessors · pending reviews</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
             {overview.isLoading ? (

@@ -121,7 +121,7 @@ export function StudentReports() {
               data={trendData}
               series={[
                 { key: 'self', label: 'Self' },
-                { key: 'mentor', label: 'Mentor' },
+                { key: 'mentor', label: 'Facilitator' },
               ]}
               scaleMax={scaleMax}
             />

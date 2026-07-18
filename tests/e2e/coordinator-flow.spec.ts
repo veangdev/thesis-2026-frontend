@@ -17,20 +17,22 @@ test.describe('Coordinator flow', () => {
     await expect(page).toHaveURL(/\/dashboard/)
   })
 
-  test('dashboard shows KPIs, heatmap, and mentor workload', async ({
+  test('dashboard shows KPIs, heatmap, and facilitator workload', async ({
     page,
   }) => {
-    await expect(page.getByText('Students', { exact: true })).toBeVisible()
+    await expect(
+      page.getByText('Self-Assessors', { exact: true })
+    ).toBeVisible()
     await expect(page.getByText(/cycle completion/i)).toBeVisible()
     await expect(page.getByText(/cohort heatmap/i)).toBeVisible()
-    await expect(page.getByText(/mentor workload/i)).toBeVisible()
+    await expect(page.getByText(/facilitator workload/i)).toBeVisible()
     // Heatmap rows render student names once analytics load.
     await expect(page.getByText('Sophea Lim').first()).toBeVisible({
       timeout: 10_000,
     })
   })
 
-  test('user management: search, drawer, and mentor assignment', async ({
+  test('user management: search, drawer, and facilitator assignment', async ({
     page,
   }) => {
     await page
@@ -47,7 +49,7 @@ test.describe('Coordinator flow', () => {
     await expect(
       page.getByRole('heading', { name: 'Sophea Lim' })
     ).toBeVisible()
-    await expect(page.getByText(/mentor/i).first()).toBeVisible()
+    await expect(page.getByText(/facilitator/i).first()).toBeVisible()
   })
 
   test('flipping a cohort scale 5 → 10 rescales scoring UIs (spec §7)', async ({

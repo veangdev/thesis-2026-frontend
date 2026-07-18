@@ -14,6 +14,13 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import {
   COACHING_SCOPE_LABELS,
@@ -43,6 +50,7 @@ export function CoachingSessionDialog({
   const updateActionItem = useUpdateActionItem()
   const deleteActionItem = useDeleteActionItem()
   const [newAction, setNewAction] = React.useState('')
+  const [newAssignee, setNewAssignee] = React.useState('unassigned')
 
   // Keep the dialog in sync when a different session opens — render-time
   // derived-state adjustment (no effect needed).
@@ -147,6 +155,11 @@ export function CoachingSessionDialog({
                   className={`flex-1 text-sm ${item.done ? 'text-muted-foreground line-through' : ''}`}
                 >
                   {item.title}
+                  {item.assigneeName && (
+                    <span className="text-muted-foreground ml-1 text-xs">
+                      · {item.assigneeName}
+                    </span>
+                  )}
                   {item.dueDate && (
                     <span className="text-muted-foreground ml-1 text-xs">
                       · due {formatDate(item.dueDate)}
@@ -180,13 +193,22 @@ export function CoachingSessionDialog({
 
             {canEdit && (
               <form
-                className="flex gap-2 pt-1"
+                className="flex flex-wrap gap-2 pt-1"
                 onSubmit={(event) => {
                   event.preventDefault()
                   const title = newAction.trim()
                   if (!title) return
                   createActionItem.mutate(
-                    { sessionId: local.id, payload: { title } },
+                    {
+                      sessionId: local.id,
+                      payload: {
+                        title,
+                        assigneeId:
+                          newAssignee === 'unassigned'
+                            ? undefined
+                            : newAssignee,
+                      },
+                    },
                     {
                       onSuccess: (item) => {
                         setLocal((current) =>
@@ -201,14 +223,28 @@ export function CoachingSessionDialog({
                     }
                   )
                   setNewAction('')
+                  setNewAssignee('unassigned')
                 }}
               >
                 <Input
                   value={newAction}
                   onChange={(event) => setNewAction(event.target.value)}
                   placeholder="Add an action item…"
-                  className="h-8"
+                  className="h-8 min-w-40 flex-1"
                 />
+                <Select value={newAssignee} onValueChange={setNewAssignee}>
+                  <SelectTrigger size="sm" className="w-40">
+                    <SelectValue placeholder="Assign to…" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="unassigned">Unassigned</SelectItem>
+                    {local.participantIds.map((id, index) => (
+                      <SelectItem key={id} value={id}>
+                        {local.participantNames[index] ?? id}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <Button type="submit" size="sm" variant="outline">
                   <Plus className="size-4" /> Add
                 </Button>

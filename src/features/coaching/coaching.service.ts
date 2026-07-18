@@ -21,6 +21,8 @@ interface RawActionItem {
   id: string
   sessionId: string
   description: string
+  assigneeId?: string | null
+  assignee?: { id: string; name: string } | null
   dueDate?: string | null
   done: boolean
   createdAt: string
@@ -36,6 +38,7 @@ interface RawSession {
   scheduledAt: string
   durationMinutes: number
   notes?: string | null
+  followUpAt?: string | null
   createdAt: string
   participants: { userId: string; user: { name: string } }[]
   targetDimensions: { dimensionId: string }[]
@@ -48,6 +51,8 @@ function toActionItem(raw: RawActionItem): ActionItem {
     sessionId: raw.sessionId,
     title: raw.description,
     done: raw.done,
+    assigneeId: raw.assigneeId ?? undefined,
+    assigneeName: raw.assignee?.name ?? undefined,
     dueDate: raw.dueDate ?? undefined,
     createdAt: raw.createdAt,
   }
@@ -68,7 +73,7 @@ function toSession(raw: RawSession): CoachingSession {
     notes: raw.notes ?? undefined,
     scheduledAt: raw.scheduledAt,
     durationMinutes: raw.durationMinutes,
-    followUpAt: undefined, // backend has no follow-up column
+    followUpAt: raw.followUpAt ?? undefined,
     actionItems: raw.actionItems.map(toActionItem),
     createdAt: raw.createdAt,
   }
@@ -125,6 +130,7 @@ export const realCoachingService: CoachingService = {
       notes: payload.notes,
       scheduledAt: payload.scheduledAt,
       durationMinutes: payload.durationMinutes,
+      followUpAt: payload.followUpAt,
     }
     return toSession(
       await apiClient.post<RawSession>(
@@ -138,13 +144,14 @@ export const realCoachingService: CoachingService = {
     id: string,
     payload: Partial<CoachingSessionPayload>
   ): Promise<CoachingSession> {
-    // Backend update DTO only accepts these fields.
+    // Backend update DTO accepts these fields.
     const body = {
       title: payload.title,
       scheduledAt: payload.scheduledAt,
       durationMinutes: payload.durationMinutes,
       notes: payload.notes,
       status: payload.status,
+      followUpAt: payload.followUpAt,
     }
     return toSession(
       await apiClient.patch<RawSession>(
@@ -164,7 +171,11 @@ export const realCoachingService: CoachingService = {
   ): Promise<ActionItem> {
     const raw = await apiClient.post<RawActionItem>(
       API_ENDPOINTS.coachingSessions.actionItems(sessionId),
-      { description: payload.title, dueDate: payload.dueDate }
+      {
+        description: payload.title,
+        dueDate: payload.dueDate,
+        assigneeId: payload.assigneeId,
+      }
     )
     return toActionItem(raw)
   },
@@ -179,6 +190,7 @@ export const realCoachingService: CoachingService = {
         description: payload.title,
         dueDate: payload.dueDate,
         done: payload.done,
+        assigneeId: payload.assigneeId,
       }
     )
     return toActionItem(raw)

@@ -145,7 +145,7 @@ export function FacilitatorDashboard() {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-muted-foreground flex items-center gap-2 text-sm font-medium">
-              <Users className="size-4" /> Assigned students
+              <Users className="size-4" /> Assigned self-assessors
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -214,7 +214,7 @@ export function FacilitatorDashboard() {
               <EmptyState
                 icon={ClipboardCheck}
                 title="Queue is clear"
-                description="New submissions land here the moment students submit."
+                description="New submissions land here the moment self-assessors submit."
               />
             ) : (
               reviewQueue.slice(0, 5).map((assessment) => (
@@ -276,7 +276,7 @@ export function FacilitatorDashboard() {
           <CardHeader className="flex-row items-center justify-between space-y-0">
             <div>
               <CardTitle className="font-heading text-base">
-                My students
+                My self-assessors
               </CardTitle>
               <CardDescription>Current cycle status</CardDescription>
             </div>

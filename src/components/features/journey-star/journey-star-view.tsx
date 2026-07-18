@@ -70,12 +70,12 @@ export function JourneyStarView({ initialStudentId }: JourneyStarViewProps) {
       <div className="mx-auto max-w-md space-y-4 pt-12 text-center">
         <EmptyState
           icon={Star}
-          title="Pick a student"
+          title="Pick a self-assessor"
           description="Choose whose Journey Star to explore."
         />
         <Select onValueChange={(value) => setPickedStudentId(value)}>
           <SelectTrigger className="mx-auto w-72">
-            <SelectValue placeholder="Select a student…" />
+            <SelectValue placeholder="Select a self-assessor…" />
           </SelectTrigger>
           <SelectContent>
             {(students.data?.data ?? []).map((student) => (
@@ -144,7 +144,7 @@ export function JourneyStarView({ initialStudentId }: JourneyStarViewProps) {
   const series: RadarSeries[] = showMentor
     ? [
         { key: 'self', label: 'Self' },
-        { key: 'mentor', label: 'Mentor' },
+        { key: 'mentor', label: 'Facilitator' },
       ]
     : [{ key: 'current', label: latest.periodName.replace(/ —.*$/, '') }]
   for (const overlay of overlays) {
@@ -193,7 +193,7 @@ export function JourneyStarView({ initialStudentId }: JourneyStarViewProps) {
               onCheckedChange={setShowMentor}
             />
             <Label htmlFor="mentor-toggle" className="text-sm">
-              Self vs mentor
+              Self vs facilitator
             </Label>
           </div>
         </div>

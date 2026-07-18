@@ -5,11 +5,11 @@ const STEPS = [
     icon: Star,
     title: 'Self-assess',
     description:
-      'Each cycle, students score themselves across every dimension and reflect on real moments behind each score.',
+      'Each cycle, self-assessors score themselves across every dimension and reflect on real moments behind each score.',
   },
   {
     icon: ClipboardCheck,
-    title: 'Mentor review',
+    title: 'Facilitator review',
     description:
       'Facilitators review submissions side-by-side, add their own scores, and flag where perceptions differ.',
   },
@@ -17,7 +17,7 @@ const STEPS = [
     icon: Handshake,
     title: 'Discuss & agree',
     description:
-      'A coaching conversation closes each gap — mentor and student agree the final scores together.',
+      'A coaching conversation closes each gap — facilitator and self-assessor agree the final scores together.',
   },
   {
     icon: TrendingUp,

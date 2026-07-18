@@ -24,6 +24,7 @@ interface RawUser {
   email: string
   role: User['role']
   avatarUrl?: string | null
+  cohortId?: string | null
   createdAt: string
 }
 
@@ -34,6 +35,7 @@ function toUser(raw: RawUser): User {
     email: raw.email,
     role: raw.role,
     avatar: raw.avatarUrl ?? undefined,
+    cohortId: raw.cohortId ?? undefined,
     createdAt: raw.createdAt,
   }
 }
@@ -45,6 +47,7 @@ function toCreateDto(p: UserPayload) {
     email: p.email,
     role: p.role,
     password: DEFAULT_TEMP_PASSWORD,
+    cohortId: p.cohortId,
   }
 }
 
@@ -68,13 +71,16 @@ function toAssignment(raw: RawAssignment): Assignment {
 
 export const realUsersService: UsersService = {
   async list(params?: UserListParams): Promise<PaginatedResponse<User>> {
-    // Backend rejects facilitatorId as a query param.
+    // Backend rejects facilitatorId as a query param and caps pageSize at 100.
     const res = await apiClient.get<PaginatedResponse<RawUser>>(
       API_ENDPOINTS.users.root,
       {
         params: {
           page: params?.page,
-          pageSize: params?.pageSize,
+          pageSize:
+            params?.pageSize != null
+              ? Math.min(params.pageSize, 100)
+              : undefined,
           search: params?.search,
           role: params?.role,
           cohortId: params?.cohortId,
@@ -95,11 +101,12 @@ export const realUsersService: UsersService = {
     )
   },
   async update(id: string, payload: Partial<UserPayload>): Promise<User> {
-    // Backend UpdateUserDto only accepts name/email/role.
+    // Backend UpdateUserDto accepts name/email/role and (re-)enrols on cohortId.
     const body = {
       name: payload.name,
       email: payload.email,
       role: payload.role,
+      cohortId: payload.cohortId,
     }
     return toUser(
       await apiClient.patch<RawUser>(API_ENDPOINTS.users.byId(id), body)
