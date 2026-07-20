@@ -1,3 +1,5 @@
+import { STUDENT_CLASSES, type StudentClass } from '@/constants/classes'
+import { GENDERS, type Gender } from '@/constants/genders'
 import { ROLES } from '@/constants/roles'
 import type { User } from '@/types/auth'
 
@@ -53,6 +55,17 @@ function slugEmail(name: string): string {
   return `${name.toLowerCase().replace(/[^a-z]+/g, '.')}@student.pnc.edu.kh`
 }
 
+/** Deterministic gender cycle so seed data (and e2e assertions) stay stable. */
+const GENDER_CYCLE: Gender[] = [GENDERS.FEMALE, GENDERS.MALE]
+function genderAt(index: number): Gender {
+  return GENDER_CYCLE[index % GENDER_CYCLE.length]
+}
+
+/** Deterministic class (A/B/C) cycle for students within a batch. */
+function classAt(index: number): StudentClass {
+  return STUDENT_CLASSES[index % STUDENT_CLASSES.length]
+}
+
 export interface SeedUsers {
   coordinator: User
   facilitators: User[]
@@ -72,6 +85,7 @@ export function seedUsers(): SeedUsers {
     name: 'Sovanna Rath',
     email: 'coordinator@pnc.edu',
     role: ROLES.PROGRAM_COORDINATOR,
+    gender: GENDERS.FEMALE,
     createdAt,
   }
 
@@ -83,6 +97,7 @@ export function seedUsers(): SeedUsers {
         ? 'facilitator@pnc.edu'
         : slugEmail(name).replace('@student.', '@'),
     role: ROLES.FACILITATOR,
+    gender: genderAt(index),
     createdAt,
   }))
 
@@ -91,6 +106,8 @@ export function seedUsers(): SeedUsers {
     name,
     email: index === 0 ? 'student@pnc.edu' : slugEmail(name),
     role: ROLES.SELF_ASSESSOR,
+    gender: genderAt(index),
+    studentClass: classAt(index),
     createdAt,
   }))
 

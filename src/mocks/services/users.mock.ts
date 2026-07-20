@@ -16,6 +16,10 @@ function applyFilters(users: User[], params?: UserListParams): User[] {
     rows = rows.filter((user) => user.cohortId === params.cohortId)
   if (params?.facilitatorId)
     rows = rows.filter((user) => user.facilitatorId === params.facilitatorId)
+  if (params?.gender)
+    rows = rows.filter((user) => user.gender === params.gender)
+  if (params?.studentClass)
+    rows = rows.filter((user) => user.studentClass === params.studentClass)
   if (params?.search) {
     const query = params.search.toLowerCase()
     rows = rows.filter(
@@ -23,6 +27,21 @@ function applyFilters(users: User[], params?: UserListParams): User[] {
         user.name.toLowerCase().includes(query) ||
         user.email.toLowerCase().includes(query)
     )
+  }
+  if (params?.sortBy === 'gender') {
+    rows = [...rows].sort(
+      (a, b) =>
+        (a.gender ?? '').localeCompare(b.gender ?? '') ||
+        a.name.localeCompare(b.name)
+    )
+  } else if (params?.sortBy === 'class') {
+    rows = [...rows].sort(
+      (a, b) =>
+        (a.studentClass ?? '').localeCompare(b.studentClass ?? '') ||
+        a.name.localeCompare(b.name)
+    )
+  } else if (params?.sortBy === 'name') {
+    rows = [...rows].sort((a, b) => a.name.localeCompare(b.name))
   }
   return rows
 }
@@ -51,6 +70,8 @@ export const mockUsersService: UsersService = {
       cohortId: payload.cohortId,
       facilitatorId: payload.facilitatorId,
       avatar: payload.avatar,
+      gender: payload.gender,
+      studentClass: payload.studentClass,
       createdAt: new Date().toISOString(),
     }
     db.users.push(user)
@@ -101,7 +122,7 @@ export const mockUsersService: UsersService = {
     await delay()
     const db = getDb()
     const student = db.users.find((user) => user.id === payload.studentId)
-    if (!student) throw new ApiError('Student not found', 404)
+    if (!student) throw new ApiError('Self-assessor not found', 404)
 
     // One facilitator per student: replace any existing assignment.
     const existingIndex = db.assignments.findIndex(

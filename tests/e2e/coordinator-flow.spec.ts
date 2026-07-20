@@ -61,10 +61,8 @@ test.describe('Coordinator flow', () => {
       .getByRole('complementary')
       .getByRole('link', { name: 'Assessments' })
       .click()
-    await page
-      .getByRole('button', { name: /^open$/i })
-      .first()
-      .click()
+    await page.getByRole('combobox', { name: 'Filter by period' }).click()
+    await page.getByRole('option', { name: 'Cycle 1 — Foundation' }).click()
     await page
       .getByRole('link', { name: /^view$/i })
       .first()
@@ -94,10 +92,8 @@ test.describe('Coordinator flow', () => {
       .getByRole('complementary')
       .getByRole('link', { name: 'Assessments' })
       .click()
-    await page
-      .getByRole('button', { name: /^open$/i })
-      .first()
-      .click()
+    await page.getByRole('combobox', { name: 'Filter by period' }).click()
+    await page.getByRole('option', { name: 'Cycle 1 — Foundation' }).click()
     await page
       .getByRole('link', { name: /^view$/i })
       .first()

@@ -1,3 +1,5 @@
+import type { StudentClass } from '@/constants/classes'
+import type { Gender } from '@/constants/genders'
 import type { Permission, Role } from '@/constants/roles'
 
 export type { Permission, Role }
@@ -12,6 +14,10 @@ export interface User {
   cohortId?: string
   /** Assigned facilitator (self-assessors only). */
   facilitatorId?: string
+  /** Self-reported gender. Optional — not every user has one on file. */
+  gender?: Gender
+  /** Class (A/B/C) within the cohort/batch. Self-assessors only. */
+  studentClass?: StudentClass
   createdAt: string
 }
 
