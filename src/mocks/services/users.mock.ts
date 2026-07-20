@@ -122,7 +122,7 @@ export const mockUsersService: UsersService = {
     await delay()
     const db = getDb()
     const student = db.users.find((user) => user.id === payload.studentId)
-    if (!student) throw new ApiError('Student not found', 404)
+    if (!student) throw new ApiError('Self-assessor not found', 404)
 
     // One facilitator per student: replace any existing assignment.
     const existingIndex = db.assignments.findIndex(

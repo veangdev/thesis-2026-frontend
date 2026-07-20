@@ -229,7 +229,7 @@ export function CoordinatorAssessmentsOverview() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Student</TableHead>
+                  <TableHead>Self-Assessor</TableHead>
                   <TableHead>Gender</TableHead>
                   <TableHead>Class</TableHead>
                   <TableHead>Period</TableHead>
