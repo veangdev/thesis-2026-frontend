@@ -1,8 +1,10 @@
 import { API_ENDPOINTS } from '@/constants/api'
 import { clearTokens, getRefreshToken, setTokens } from '@/lib/auth'
+import { mapApiUser, type ApiUser } from '@/lib/api-user'
 import { apiClient } from '@/services/api-client'
 import type {
   AuthTokens,
+  ChangePasswordPayload,
   LoginPayload,
   LoginResponse,
   ResetPasswordPayload,
@@ -18,13 +20,11 @@ import type { AuthService } from './auth.contract'
  */
 export const realAuthService: AuthService = {
   async login(payload: LoginPayload): Promise<LoginResponse> {
-    const res = await apiClient.post<LoginResponse>(
-      API_ENDPOINTS.auth.login,
-      payload,
-      { auth: false }
-    )
+    const res = await apiClient.post<
+      Omit<LoginResponse, 'user'> & { user: ApiUser }
+    >(API_ENDPOINTS.auth.login, payload, { auth: false })
     setTokens({ accessToken: res.accessToken, refreshToken: res.refreshToken })
-    return res
+    return { ...res, user: mapApiUser(res.user) }
   },
 
   async logout(): Promise<void> {
@@ -35,8 +35,17 @@ export const realAuthService: AuthService = {
     }
   },
 
-  me(signal?: AbortSignal): Promise<User> {
-    return apiClient.get<User>(API_ENDPOINTS.auth.me, { signal })
+  async me(signal?: AbortSignal): Promise<User> {
+    return mapApiUser(
+      await apiClient.get<ApiUser>(API_ENDPOINTS.auth.me, { signal })
+    )
+  },
+
+  async changePassword(payload: ChangePasswordPayload): Promise<void> {
+    await apiClient.patch(API_ENDPOINTS.auth.changePassword, {
+      currentPassword: payload.currentPassword,
+      newPassword: payload.password,
+    })
   },
 
   async refresh(): Promise<AuthTokens> {

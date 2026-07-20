@@ -66,6 +66,10 @@ export const mockAuthService: AuthService = {
     return tokens
   },
 
+  async changePassword(): Promise<void> {
+    await delay(200)
+  },
+
   async forgotPassword(email: string): Promise<{ message: string }> {
     void email // Accepted but unused — mock never sends mail.
     await delay()

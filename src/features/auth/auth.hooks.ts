@@ -6,7 +6,11 @@ import { toast } from 'sonner'
 import { getPostLoginRoute } from './auth.constants'
 import { useAuthStore } from './auth.store'
 import { authService } from './index'
-import type { LoginPayload, ResetPasswordPayload } from '@/types/auth'
+import type {
+  ChangePasswordPayload,
+  LoginPayload,
+  ResetPasswordPayload,
+} from '@/types/auth'
 
 /**
  * Login mutation: authenticates, stores the user, and redirects to the
@@ -53,5 +57,16 @@ export function useResetPassword() {
     },
     onError: (error) =>
       toast.error(error.message || 'Could not reset the password'),
+  })
+}
+
+/** Change the signed-in user's password (requires the current one). */
+export function useChangePassword() {
+  return useMutation({
+    mutationFn: (payload: ChangePasswordPayload) =>
+      authService.changePassword(payload),
+    onSuccess: () => toast.success('Password updated'),
+    onError: (error) =>
+      toast.error(error.message || 'Could not change the password'),
   })
 }

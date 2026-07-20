@@ -1,10 +1,12 @@
 import { API_ENDPOINTS } from '@/constants/api'
+import { mapApiUser, resolveAvatarUrl, type ApiUser } from '@/lib/api-user'
 import { apiClient } from '@/services/api-client'
 import type { PaginatedResponse } from '@/types/common'
 import type { UsersService } from './users.contract'
 import type {
   Assignment,
   AssignmentPayload,
+  UpdateMePayload,
   User,
   UserListParams,
   UserPayload,
@@ -34,7 +36,7 @@ function toUser(raw: RawUser): User {
     name: raw.name,
     email: raw.email,
     role: raw.role,
-    avatar: raw.avatarUrl ?? undefined,
+    avatar: resolveAvatarUrl(raw.avatarUrl),
     cohortId: raw.cohortId ?? undefined,
     createdAt: raw.createdAt,
   }
@@ -147,6 +149,31 @@ export const realUsersService: UsersService = {
     )
     return toAssignment(raw)
   },
+  async updateMe(payload: UpdateMePayload): Promise<User> {
+    return mapApiUser(
+      await apiClient.patch<ApiUser>(API_ENDPOINTS.users.me, {
+        name: payload.name,
+        expertiseTags: payload.expertiseTags,
+        availability: payload.availability,
+      })
+    )
+  },
+
+  async uploadAvatar(file: File): Promise<User> {
+    const form = new FormData()
+    form.append('file', file)
+    return mapApiUser(
+      await apiClient.post<ApiUser>(API_ENDPOINTS.users.meAvatar, form)
+    )
+  },
+
+  async myFacilitator(): Promise<User | null> {
+    const raw = await apiClient.get<ApiUser | null>(
+      API_ENDPOINTS.users.meFacilitator
+    )
+    return raw ? mapApiUser(raw) : null
+  },
+
   deleteAssignment(id: string): Promise<void> {
     return apiClient.delete(`${API_ENDPOINTS.assignments.root}/${id}`)
   },

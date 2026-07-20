@@ -1,5 +1,6 @@
 import type {
   AuthTokens,
+  ChangePasswordPayload,
   LoginPayload,
   LoginResponse,
   ResetPasswordPayload,
@@ -14,4 +15,5 @@ export interface AuthService {
   refresh(): Promise<AuthTokens>
   forgotPassword(email: string): Promise<{ message: string }>
   resetPassword(payload: ResetPasswordPayload): Promise<{ message: string }>
+  changePassword(payload: ChangePasswordPayload): Promise<void>
 }

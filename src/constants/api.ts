@@ -12,9 +12,13 @@ export const API_ENDPOINTS = {
     me: '/auth/me',
     forgotPassword: '/auth/forgot-password',
     resetPassword: '/auth/reset-password',
+    changePassword: '/auth/change-password',
   },
   users: {
     root: '/users',
+    me: '/users/me',
+    meAvatar: '/users/me/avatar',
+    meFacilitator: '/users/me/facilitator',
     byId: (id: string) => `/users/${id}`,
     bulk: '/users/bulk',
   },

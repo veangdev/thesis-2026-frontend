@@ -7,6 +7,7 @@ import type {
   UserPayload,
 } from '@/features/users/users.types'
 import { getDb } from '../db'
+import { currentMockUser } from '../session'
 import { clone, delay, paginate } from '../latency'
 
 function applyFilters(users: User[], params?: UserListParams): User[] {
@@ -80,6 +81,32 @@ export const mockUsersService: UsersService = {
       created.push(await this.create(payload))
     }
     return created
+  },
+
+  async updateMe(payload) {
+    await delay()
+    const me = currentMockUser()
+    if (!me) throw new ApiError('Unauthorized', 401)
+    Object.assign(me, payload)
+    return clone(me)
+  },
+
+  async uploadAvatar(file) {
+    await delay(300)
+    const me = currentMockUser()
+    if (!me) throw new ApiError('Unauthorized', 401)
+    me.avatar = URL.createObjectURL(file)
+    return clone(me)
+  },
+
+  async myFacilitator() {
+    await delay()
+    const me = currentMockUser()
+    if (!me) throw new ApiError('Unauthorized', 401)
+    const facilitator = getDb().users.find(
+      (user) => user.id === me.facilitatorId
+    )
+    return facilitator ? clone(facilitator) : null
   },
 
   async facilitatorStudents(facilitatorId) {

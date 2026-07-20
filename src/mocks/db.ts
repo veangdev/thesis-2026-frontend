@@ -50,6 +50,7 @@ function buildDb(): MockDb {
     const block = students.slice(cursor, cursor + COHORT_SIZES[cohortIndex])
     block.forEach((student, index) => {
       student.cohortId = cohort.id
+      student.cohortName = cohort.name
       student.facilitatorId = facilitators[index % facilitators.length].id
     })
     cursor += COHORT_SIZES[cohortIndex]

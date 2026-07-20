@@ -3,8 +3,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { userKeys } from './users.keys'
+import { useAuthStore } from '@/features/auth/auth.store'
 import type {
   AssignmentPayload,
+  UpdateMePayload,
   UserListParams,
   UserPayload,
 } from './users.types'
@@ -115,5 +117,47 @@ export function useDeleteAssignment() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: userKeys.all }),
     onError: (error) =>
       toast.error(error.message || 'Failed to unassign student'),
+  })
+}
+
+/** The facilitator assigned to the signed-in self-assessor (null if none). */
+export function useMyFacilitator(enabled = true) {
+  return useQuery({
+    queryKey: userKeys.myFacilitator(),
+    queryFn: () => usersService.myFacilitator(),
+    enabled,
+  })
+}
+
+/**
+ * Self-service profile updates. Both refresh the auth store so the topbar,
+ * sidebar and avatar reflect the change immediately.
+ */
+export function useUpdateMe() {
+  const queryClient = useQueryClient()
+  const setUser = useAuthStore((state) => state.setUser)
+  return useMutation({
+    mutationFn: (payload: UpdateMePayload) => usersService.updateMe(payload),
+    onSuccess: (user) => {
+      setUser(user)
+      queryClient.invalidateQueries({ queryKey: userKeys.all })
+      toast.success('Profile updated')
+    },
+    onError: (error) => toast.error(error.message || 'Could not save changes'),
+  })
+}
+
+export function useUploadAvatar() {
+  const queryClient = useQueryClient()
+  const setUser = useAuthStore((state) => state.setUser)
+  return useMutation({
+    mutationFn: (file: File) => usersService.uploadAvatar(file),
+    onSuccess: (user) => {
+      setUser(user)
+      queryClient.invalidateQueries({ queryKey: userKeys.all })
+      toast.success('Profile picture updated')
+    },
+    onError: (error) =>
+      toast.error(error.message || 'Could not upload the image'),
   })
 }

@@ -10,8 +10,14 @@ export interface User {
   avatar?: string
   /** Cohort the user belongs to (self-assessors) or coordinates. */
   cohortId?: string
+  /** Cohort display name, sent alongside `cohortId` by the API. */
+  cohortName?: string
   /** Assigned facilitator (self-assessors only). */
   facilitatorId?: string
+  /** Coaching strengths shown on a facilitator's profile. */
+  expertiseTags?: string[]
+  /** Days a facilitator is free to coach, as YYYY-MM-DD. */
+  availability?: string[]
   createdAt: string
 }
 
@@ -35,6 +41,11 @@ export interface LoginResponse {
   user: User
   accessToken: string
   refreshToken: string
+}
+
+export interface ChangePasswordPayload {
+  currentPassword: string
+  password: string
 }
 
 export interface ResetPasswordPayload {

@@ -30,6 +30,14 @@ export interface Assignment {
   createdAt: string
 }
 
+/** The narrow set of fields a user may change on their own profile. */
+export interface UpdateMePayload {
+  name?: string
+  expertiseTags?: string[]
+  /** Calendar days, as YYYY-MM-DD. */
+  availability?: string[]
+}
+
 export interface AssignmentPayload {
   facilitatorId: string
   studentId: string

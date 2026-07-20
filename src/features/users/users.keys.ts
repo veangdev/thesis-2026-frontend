@@ -6,6 +6,7 @@ export const userKeys = {
   list: (params?: UserListParams) =>
     [...userKeys.lists(), params ?? {}] as const,
   detail: (id: string) => [...userKeys.all, 'detail', id] as const,
+  myFacilitator: () => [...userKeys.all, 'me', 'facilitator'] as const,
   facilitatorStudents: (facilitatorId: string) =>
     [...userKeys.all, 'facilitator', facilitatorId, 'students'] as const,
   assignments: (cohortId?: string) =>
