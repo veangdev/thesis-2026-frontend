@@ -32,7 +32,11 @@ import {
 } from '@/components/ui/table'
 import { STUDENT_CLASSES, STUDENT_CLASS_LABELS } from '@/constants/classes'
 import type { StudentClass } from '@/constants/classes'
-import { GENDER_BADGE_CLASSES, GENDER_LABELS, GENDERS } from '@/constants/genders'
+import {
+  GENDER_BADGE_CLASSES,
+  GENDER_LABELS,
+  GENDERS,
+} from '@/constants/genders'
 import type { Gender } from '@/constants/genders'
 import { ROLES } from '@/constants/roles'
 import { ROUTES } from '@/constants/routes'
@@ -58,9 +62,7 @@ export function CoordinatorAssessmentsOverview() {
   )
 
   const [periodFilter, setPeriodFilter] = React.useState<string>('')
-  const [genderFilter, setGenderFilter] = React.useState<Gender | 'all'>(
-    'all'
-  )
+  const [genderFilter, setGenderFilter] = React.useState<Gender | 'all'>('all')
   const [classFilter, setClassFilter] = React.useState<StudentClass | 'all'>(
     'all'
   )
@@ -253,9 +255,7 @@ export function CoordinatorAssessmentsOverview() {
                           {GENDER_LABELS[student.gender]}
                         </Badge>
                       ) : (
-                        <span className="text-muted-foreground text-sm">
-                          —
-                        </span>
+                        <span className="text-muted-foreground text-sm">—</span>
                       )}
                     </TableCell>
                     <TableCell>
@@ -264,9 +264,7 @@ export function CoordinatorAssessmentsOverview() {
                           {STUDENT_CLASS_LABELS[student.studentClass]}
                         </Badge>
                       ) : (
-                        <span className="text-muted-foreground text-sm">
-                          —
-                        </span>
+                        <span className="text-muted-foreground text-sm">—</span>
                       )}
                     </TableCell>
                     <TableCell className="text-sm">

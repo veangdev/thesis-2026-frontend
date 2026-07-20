@@ -29,14 +29,16 @@ function applyFilters(users: User[], params?: UserListParams): User[] {
     )
   }
   if (params?.sortBy === 'gender') {
-    rows = [...rows].sort((a, b) =>
-      (a.gender ?? '').localeCompare(b.gender ?? '') ||
-      a.name.localeCompare(b.name)
+    rows = [...rows].sort(
+      (a, b) =>
+        (a.gender ?? '').localeCompare(b.gender ?? '') ||
+        a.name.localeCompare(b.name)
     )
   } else if (params?.sortBy === 'class') {
-    rows = [...rows].sort((a, b) =>
-      (a.studentClass ?? '').localeCompare(b.studentClass ?? '') ||
-      a.name.localeCompare(b.name)
+    rows = [...rows].sort(
+      (a, b) =>
+        (a.studentClass ?? '').localeCompare(b.studentClass ?? '') ||
+        a.name.localeCompare(b.name)
     )
   } else if (params?.sortBy === 'name') {
     rows = [...rows].sort((a, b) => a.name.localeCompare(b.name))
